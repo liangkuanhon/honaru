@@ -1,75 +1,47 @@
-# React + TypeScript + Vite
+# Honaru web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The landing page for Honaru, a messaging app where every relationship gets its own private
+Space. *Made for your people.*
 
-Currently, two official plugins are available:
+The Spaces live in the mobile app. This site answers one question: why does Honaru exist,
+and why trust the person behind it? It collects the waitlist and links to the app stores. Design: [`DESIGN.md`](DESIGN.md).
+Contributor and agent rules: [`CLAUDE.md`](CLAUDE.md).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Vite, React and TypeScript, one stylesheet, hosted on Cloudflare Pages. Newsreader (headings)
+and DM Sans (body) are self-hosted. No backend, no analytics, no third-party requests.
 
-## React Compiler
+## Quick start
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Requires Node.js 22+ with Corepack (`corepack enable`, so `yarn` is the pinned Yarn 4).
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+yarn install
+yarn dev        # http://localhost:5173
+yarn lint
+yarn build      # type-check and build into dist/
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Optional local settings: `cp .env.example .env` (never commit it).
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Pages
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Route          | Page                                                        |
+| -------------- | ----------------------------------------------------------- |
+| `/`            | Belief, the problem, the Spaces, reviews, waitlist          |
+| `/mission`     | The mission, why we exist, promises, how we decide          |
+| `/pledge`      | Founder's story, giving back to people far from home        |
+| `/careers`     | Who we hope to meet, how we work, open roles                |
+| `/contact`     | Email and contact form                                      |
+| `/privacy`     | Privacy note                                                |
 
-```
+## Editing content
+
+All copy and data are in `src/content.ts`: the belief line, Spaces, reviews, mission,
+pledge, store links, email and handle. Anything unconfirmed is written in `[brackets]`
+and shows on the page until it is replaced.
+
+## Deploy (Cloudflare Pages)
+
+Build command `yarn build`, output `dist`. Build variables: `VITE_SITE_URL` (required) and
+optionally `VITE_NEWSLETTER_ENDPOINT` / `VITE_CONTACT_ENDPOINT`. With no `404.html`, Pages
+serves `index.html` for every path, and the app's router shows the right page or "not found".
