@@ -1,5 +1,5 @@
-import { CardGrid, GetApp, Illustration, Mark, Screen } from '../components/ui'
-import { problem, reviews, site, spaces } from '../content'
+import { Illustration, Mark, Screen } from '../components/ui'
+import { problem, site, spaces } from '../content'
 
 // The track slides left by one set, then restarts. Each slide is a quarter of the viewport
 // (styles.css), so one set always fills the screen and two sets loop without a gap. Keep
@@ -29,7 +29,7 @@ function SpacesCarousel() {
   )
 }
 
-/** Why Honaru exists, in five screens: belief, a human moment, the Spaces, reviews, invitation. */
+/** Why Honaru exists, in three screens: belief, a human moment, the Spaces. */
 export function Home() {
   return (
     <>
@@ -53,8 +53,6 @@ export function Home() {
       <Screen bleed={<SpacesCarousel />}>
         <h2 className="title">A home for each of your people</h2>
       </Screen>
-
-      
     </>
   )
 }

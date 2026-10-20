@@ -53,7 +53,7 @@ right; Download is not a page, only a hover card with the App Store QR code. Foo
 
 | Route | Screens |
 | --- | --- |
-| `/` | Hero (the belief) · the problem as one human moment · the four Spaces on a slow loop · reviews · closing slogan and waitlist |
+| `/` | Hero (the belief) · the problem as one human moment · the four Spaces on a slow loop |
 | `/mission` | The mission over a 16:9 image · why we exist, with a 3:2 illustration · three numbered promises · "how we decide" pull quote over a 21:9 strip · "Honaru started with a real reason", linking to `/pledge` · waitlist |
 | `/pledge` | "Giving back" hero · why this matters to me (the founder's own words) · what we'll do · closing |
 | `/careers` | Hero · who we hope to meet · how we work · open roles · closing |

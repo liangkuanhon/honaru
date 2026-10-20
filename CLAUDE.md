@@ -11,9 +11,9 @@ mobile app; never build app features, sign-in or per-Space tours here.
 Owner direction (2026-10-17), which overrides DESIGN.md where they differ:
 
 - **Minimal and inviting**, in the spirit of locket.com. The home page answers one
-  question, "why does this exist, and why trust the person behind it?", in five screens:
+  question, "why does this exist, and why trust the person behind it?", in three screens:
   hero (the belief), the problem as one human moment, the four Spaces as a looping
-  teaser, reviews, closing waitlist. Features belong in the app; detail lives on its own
+  teaser. Features belong in the app; detail lives on its own
   page, never in more home sections.
 - Header: Mission and Pledge on the left, brand centred, Download and Careers on the
   right (Download is a hover card, not a page). Footer (purple): brand, X / Instagram /
@@ -127,8 +127,8 @@ yarn lint && yarn build    # both must pass before reporting work done
 - Never invent achievements, numbers, quotes, partners, platforms, dates or legal text.
   Unconfirmed values are `[bracketed]` and stay visible; `EmailLink` refuses to link a
   placeholder address.
-- Waitlist mode: while both store URLs are `null`, `GetApp` (home closing screen) shows the waitlist form and "Launching first in Singapore" instead of
-  store badges.
+- Waitlist mode: while both store URLs are `null`, `GetApp` shows the waitlist form and "Launching first in Singapore" instead of
+  store badges. No page renders it at the moment.
 
 ## Forms
 
