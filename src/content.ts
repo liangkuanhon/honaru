@@ -7,7 +7,7 @@ import type { IconName } from "./components/Icon"
 export const site = {
   name: "Honaru",
   slogan: "Made for your people.",
-  belief: "Your closest relationships deserve more than a group chat built for work.",
+  belief: "Your people aren't a group chat. Stop treating them like one.",
   launch: "Launching first in Singapore.",
   email: "hello@honaru.com",
   social: [
@@ -30,23 +30,70 @@ export function isPlaceholder(value: string): boolean {
 
 /** The home page's human moment: two or three short lines, no feature list. */
 export const problem = [
-  "Her birthday is in two weeks. The gift idea you saved is somewhere under 200 messages about dinner.",
-  "In the family chat, Thursday's school pickup got lost between photos of the dog.",
+  "Her birthday's in two weeks. The perfect gift idea? Buried under 200 messages about dinner.",
+  "Thursday's school pickup? Lost somewhere between photos of the dog.",
 ]
 
-/** The four Spaces as a teaser: a name and a feeling, never a feature list. */
-export const spaces: { label: string; feeling: string; icon: IconName }[] = [
-  { label: "Couple", feeling: "Just the two of you.", icon: "heart" },
-  { label: "Family", feeling: "Everyone in the loop, grandparents too.", icon: "house" },
-  { label: "Friends", feeling: "Plans that actually happen.", icon: "group" },
-  { label: "Travel", feeling: "The whole trip in one place.", icon: "plane" },
+/** A Room's fixed key: it picks the Room's colours (`data-room` in styles.css), so labels can change freely. */
+export type RoomId = "couple" | "family-friends" | "travel"
+
+/**
+ * The three Rooms. `label` and `feeling` are the home carousel's teaser; the rest is the
+ * owner's copy for /rooms.
+ */
+export const rooms: {
+  id: RoomId
+  label: string
+  feeling: string
+  icon: IconName
+  audience: string
+  title: string
+  mood: string
+  text: string
+}[] = [
+  {
+    id: "couple",
+    label: "Rose Room",
+    feeling: "For Couples.",
+    icon: "heart",
+    audience: "For Couples",
+    title: "The Rose Room",
+    mood: "Grounded warmth and absolute privacy.",
+    text: "Your digital balcony. The world goes quiet out here, and it's just the two of you. Share your location and it isn't surveillance; it's the small, warm relief of knowing they made it home. Count down on a shared calendar to the next time you hold hands. Keep a journal that belongs to no one else.",
+  },
+  {
+    id: "family-friends",
+    label: "Lavender Room",
+    feeling: "For Family & Lifelong Friends.",
+    icon: "group",
+    audience: "For Family & Lifelong Friends",
+    title: "The Lavender Room",
+    mood: "Nostalgia, high-trust and safe.",
+    text: "Your digital living room. Drop in with the small stuff: a photo, a hello across time zones, the milestone nobody wants to miss. No pressure to keep up. And year after year, it quietly gathers it all into your Memory Vault, a scrapbook that becomes your circle's heirloom.",
+  },
+  {
+    id: "travel",
+    label: "Sage Room",
+    feeling: "For Travel & Shared Adventures.",
+    icon: "plane",
+    audience: "For Travel & Shared Adventures",
+    title: "The Sage Room",
+    mood: "Alert, clear, and forward-looking.",
+    text: "Your basecamp. Open Honaru and the air turns crisp, the greens of an open trail. In an instant, everyone's on the same map. The itinerary stops being a spreadsheet and becomes a living timeline of the next great story you'll tell together.",
+  },
 ]
+
+/** /rooms, reached only from the footer (Resources) and the home carousel's button. */
+export const roomsPage = {
+  label: "Honaru",
+  title: "Every relationship gets a room of its own.",
+}
 
 // Real reviews only, quoted with the person's permission. Never write one.
 export const reviews = [
-  { quote: "[Review from an early tester.]", name: "[Name]", space: "[Space they use]" },
-  { quote: "[Review from an early tester.]", name: "[Name]", space: "[Space they use]" },
-  { quote: "[Review from an early tester.]", name: "[Name]", space: "[Space they use]" },
+  { quote: "[Review from an early tester.]", name: "[Name]", room: "[Room they use]" },
+  { quote: "[Review from an early tester.]", name: "[Name]", room: "[Room they use]" },
+  { quote: "[Review from an early tester.]", name: "[Name]", room: "[Room they use]" },
 ]
 
 /**
@@ -62,13 +109,24 @@ export const mission = {
     src: "/images/mission-hero.png",
     label: "[Photo, 16:9: a phone face-down on a table between two cups or two sets of hands, no faces]",
   },
+  story: {
+    lines: [
+      "Close your eyes and picture your people. Your partner. Your oldest friend. The family chat that never stops buzzing. Each one feels different, doesn't it?",
+    ],
+  },
+  reason: {
+    quote: "So why does every chat with them look exactly the same?",
+    lines: [
+      "Honaru throws out the one-size-fits-all inbox. Step into a room and it changes with you: its colours, its tools, its whole energy, shaped by the people waiting inside.",
+    ],
+  },
   why: {
     title: "Why we exist",
     // One flow: how people keep close, why existing apps lose it, why we built Honaru.
     lines: [
       "Everyone loves in their own way. Some call. Some send memes. Some just show up. All of it counts.",
-      "But it was getting lost. The plan in one chat, the photos in another, a birthday idea buried somewhere between 200 messages and a grocery list. Messaging apps are built for everyone, so they fit no relationship in particular.",
-      "So we built Honaru: a quiet Space for each of your people, where every way you show up for each other has somewhere to land.",
+      "But somewhere in the noise, it started slipping. The plan in one thread, the photos in another, her birthday idea drowned under 200 messages and a grocery list. Apps built for everyone end up fitting no one.",
+      "So we built Honaru. A room for each of your people, where every way you show up finally has somewhere to land.",
     ],
     image: {
       src: "/images/mission-why.png",
@@ -80,24 +138,24 @@ export const mission = {
     items: [
       {
         title: "Made for your people",
-        text: "One Space for each kind of relationship, shaped around the people in it, not a generic chat with extras bolted on.",
+        text: "One room per relationship, built around the people in it. Not a generic chat with extras bolted on.",
         icon: "circles",
       },
       {
         title: "Yours, never ours to sell",
-        text: "We never sell your conversations or personal data. Location sharing is always opt-in, with no background tracking.",
+        text: "We never sell your conversations or personal data. Location sharing is opt-in, always. No background tracking.",
         icon: "pin-off",
       },
       {
         title: "Independent by choice",
-        text: "No investors and no pressure to grow at your expense. Every decision is made for the people using Honaru.",
+        text: "No investors. No pressure to grow at your expense. Every call we make is for the people using Honaru.",
         icon: "sapling",
       },
     ] satisfies { title: string; text: string; icon: IconName }[],
   },
   decide: {
     label: "How we decide",
-    quote: "We say no to anything that adds noise to your relationships.",
+    quote: "If it adds noise to your relationships, it doesn't ship.",
     image: {
       src: "/images/mission-decide.png",
       label: "[Texture, 21:9: paper grain or a handwritten margin]",
@@ -116,21 +174,21 @@ export const mission = {
 export const pledge = {
   label: "Giving back",
   title: "Some of us are building our lives far from the people we love.",
-  lead: "Honaru is for staying close. So part of what it earns goes to helping others make it home or feel less far from it.",
+  lead: "Honaru exists to keep people close. So part of what it earns goes to helping someone get home, or feel a little less far from it.",
   why: {
     title: "Why this matters to us",
-    text: "The hardest part of leaving home isn't the packing. It’s the quiet realization that your daily life will no longer share the same space with the people you love. Many of us at Honaru know that exact ache, counting down time zones on a phone screen, watching holidays pass from thousands of miles away and knowing the heavy choice between a ticket home and next month's bills.",
+    text: "Leaving home isn't hard because of the packing. It's hard the day you realise your ordinary life no longer overlaps with the people you love. Many of us at Honaru know that ache. Counting time zones on a lock screen. Watching the holidays happen without you, thousands of miles away. Choosing between a ticket home and next month's bills.",
   },
   horizon: {
-    text: "Honaru was born from that quiet ache. It was built on a simple belief. Distance shouldn’t mean disconnect and financial hardship shouldn't keep you from the arms of the people you love.",
+    text: "Honaru was born from that ache, and from one stubborn belief: distance shouldn't mean disconnection, and money should never be what keeps you from the arms of the people you love.",
   },
   promise: {
     title: "What we promise",
-    text: "That is why we pledge a portion of our earnings to help others bridge that gap, whether that means funding a ticket back or pulling up a seat at the table so no one feels alone in a new city.",
+    text: "So we pledge a portion of what we earn to closing that gap. Sometimes that's a ticket home. Sometimes it's a seat pulled up at the table, so no one has to face a new city alone.",
   },
   closing: {
-    title: "Know someone far from home??",
-    lead: "Whether you know someone who needs a ticket or miss your family, we’d love to hear from you.",
+    title: "Know someone far from home?",
+    lead: "Someone who needs a ticket home. Or maybe it's you, missing yours. Either way, we want to hear from you.",
   },
 }
 
@@ -140,31 +198,31 @@ export const pledge = {
  */
 export const careers = {
   label: "Careers",
-  title: "Build something you would give to your own people.",
-  lead: "Honaru is small, independent and in no rush. We are looking for a few people who want the same things we do.",
+  title: "Build something you'd hand to your own people.",
+  lead: "Small. Independent. Zero rush. We're after a few people who want what we want.",
   people: {
-    title: "Who we hope to meet",
+    title: "Who we're looking for",
     items: [
-      { title: "You have felt the problem", text: "A plan lost in a group chat, a call home you kept meaning to make. You would use Honaru with your own people." },
-      { title: "You remember who helped you", text: "Someone once made room for you, and you have been looking for ways to pass it on." },
-      { title: "You notice who is left out", text: "The person on their own in a new city. The grandparent who finds apps hard. You think of them first." },
+      { title: "You've felt the problem", text: "A plan lost in the group chat. A call home you kept putting off. You'd use Honaru with your own people." },
+      { title: "You remember who helped you", text: "Someone once made room for you. You've been looking for a way to pass it on ever since." },
+      { title: "You notice who's left out", text: "The person alone in a new city. The grandparent who finds apps hard. You think of them first." },
     ],
   },
   work: {
     title: "How we work",
     items: [
-      { title: "Independent", text: "No investors to answer to, so every decision is made for the people using Honaru." },
-      { title: "Unhurried", text: "We would rather get one thing right than ship ten things fast." },
-      { title: "Part of something bigger", text: "Part of what Honaru earns goes back to people far from home. The work counts twice." },
+      { title: "Independent", text: "No investors to answer to. Every decision answers to the people using Honaru." },
+      { title: "Unhurried", text: "One thing done right beats ten things shipped fast." },
+      { title: "Part of something bigger", text: "Part of what Honaru earns goes back to people far from home. Your work counts twice." },
     ],
   },
   roles: {
     title: "Open roles",
-    text: "We don't keep a list of open roles. We shape roles around the right people. If you're a designer, engineer or translator who feels at home in what we're building, say hello.",
+    text: "No static job boards here. We design roles around the right minds. If you're a storyteller, visionary or builder who belongs in our story, come say hello.",
   },
   closing: {
     title: "Sound like you?",
-    lead: "Write to us with a little about yourself and what you would like to work on.",
+    lead: "Tell us who you are and what you'd love to build.",
   },
 }
 

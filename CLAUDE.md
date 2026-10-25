@@ -5,22 +5,23 @@
 
 ## What this is
 
-Only the Honaru landing page. The Spaces (Couple, Family, Friends, Travel) live in the
-mobile app; never build app features, sign-in or per-Space tours here.
+Only the Honaru landing page. The Rooms (Couple, Family & Friends, Travel) live in the
+mobile app; never build app features, sign-in or per-Room tours here.
 
 Owner direction (2026-10-17), which overrides DESIGN.md where they differ:
 
 - **Minimal and inviting**, in the spirit of locket.com. The home page answers one
   question, "why does this exist, and why trust the person behind it?", in three screens:
-  hero (the belief), the problem as one human moment, the four Spaces as a looping
+  hero (the belief), the problem as one human moment, the three Rooms as a looping
   teaser. Features belong in the app; detail lives on its own
   page, never in more home sections.
 - Header: Mission and Pledge on the left, brand centred, Download and Careers on the
-  right (Download is a hover card, not a page). Footer (purple): brand, X / Instagram /
+  right (Download is a hover card, not a page). Footer (ink): brand, X / Instagram /
   TikTok icons and copyright on the left; Index and Legal links on the right.
-- **Three colours: purple, black, white.** White background, black text, purple for the
-  logo, buttons, links and accents. No cream, sand, greys or extra status colours; no dark
-  theme (`prefers-color-scheme: dark`).
+- **Ground and ink, plus one accent per Room (2026-10-25).** Ground #FAF8F5 background,
+  ink #17151C text, logo, buttons and links. Couple is Rose, Travel Sage, Family &
+  Friends Lavender, each a strong accent, a soft tint and an accent-text shade (DESIGN.md).
+  No greys or status colours; no dark theme (`prefers-color-scheme: dark`).
 - **Newsreader for headings (h1-h3, wordmark), DM Sans for everything else.** Both
   self-hosted with `font-display: block` and no system-font stack, so every device renders
   the same faces.
@@ -38,7 +39,7 @@ src/
 ├── main.tsx            mounts <App />
 ├── App.tsx             route table: Record<Path, { title, page }>
 ├── router.ts           paths, usePathname(), navigate()
-├── content.ts          all copy and data (belief, Spaces, reviews, mission, pledge, stores)
+├── content.ts          all copy and data (belief, Rooms, reviews, mission, pledge, stores)
 ├── styles.css          tokens and every style
 ├── components/
 │   ├── ui.tsx          Link, ButtonLink, Screen, Page, Section, Card, CardGrid, Cards,
@@ -46,8 +47,8 @@ src/
 │   ├── Layout.tsx      header, <main>, footer
 │   ├── forms.tsx       NewsletterForm, ContactForm (one useForm hook, one Field)
 │   └── Icon.tsx        line icons
-└── pages/              Home, Mission, Pledge, Careers, Contact, Privacy,
-                        NotFound
+└── pages/              Home, Mission, Pledge, Careers, Rooms, Contact,
+                        Privacy, NotFound
 ```
 
 ## Routing
@@ -76,26 +77,33 @@ yarn lint && yarn build    # both must pass before reporting work done
 
 ## Design rules
 
-- Colours: only `--purple`, `--black` and `--white`; do not add a fourth. Components use
-  the role tokens `--bg`, `--fg`, `--accent` and `--on-accent`, never the colours
-  directly, so they work on both tones. No gradients, shadows, blur or tinted panels;
-  separate things with space, not boxes. Radius 4px; 1px borders.
-- Tones: home screens alternate white and purple (`<Screen tone="purple">` sets
-  `data-tone`, which swaps the role tokens to white on purple). The sticky header takes
+- Colours: the palette lives once in `:root` (`--ground`, `--ink`, `--rose*`, `--sage*`,
+  `--lavender*`); do not add to it. Components use the role tokens `--bg`, `--fg`,
+  `--accent`, `--on-accent`, `--selection` and `--room-accent`, `--room-tint`,
+  `--room-accent-text`, never raw colours or hex, so they work on both tones and in every
+  Room. `data-room={room.id}` sets the Room tokens, keyed by `RoomId` in `content.ts`
+  (default Lavender); never key colours off a label. No gradients, shadows or blur; tints
+  only as a Room wash, never as general
+  panels; separate things with space, not boxes. Radius 4px; 1px borders.
+- Tones: home screens alternate ground and ink (`<Screen tone="ink">` sets
+  `data-tone`, which swaps the role tokens to ground on ink). The sticky header takes
   the tone of the section beneath it, and turns transparent while a full-bleed image
-  covers it (`useWhatIsUnder` in `Layout.tsx`). Inner pages are white.
-- Contrast (checked 2026-10-17): purple #7C6BA8 is 4.6:1 on white and white on purple is
-  4.6:1, so it passes AA for links and button labels. Errors are shown without colour: a
+  covers it (`useWhatIsUnder` in `Layout.tsx`). Inner pages are ground.
+  `<Screen room={id}>` washes a screen in that Room's tint (`data-tone="room"`); the
+  header copies its `data-room` too. Only `/rooms` uses it.
+- Contrast (checked 2026-10-25): ink and ground are 17:1; each accent-text shade is 7.6:1+
+  on its tint and 9:1+ on ground. Strong accents are only 2.0-2.6:1 on ground: fills and
+  frames only, never text or focus rings (use the accent-text shade). Errors are shown without colour: a
   2px outline on the field and the message in text.
 - Fonts via `--font-heading` and `--font-body` only. DM Sans runs 300-600 (use 600
   where DESIGN.md says Bold). Newsreader runs 200-800 with an optical-size axis;
   headings use 500.
-- Motion: the two-beat hero fade, the slow Spaces loop (no pause control, by the
+- Motion: the two-beat hero fade, the slow Rooms loop (no pause control, by the
   owner's choice), the header's colour easing between tones, and hover colour changes. No scroll-triggered effects. Reduced motion stops all of it and turns the
   carousel into a still, scrollable row.
 - Imagery: no stock photos. `Illustration` marks where an image goes, at its final
   aspect ratio (4:5, 3:2, 16:9, 21:9) and labelled with what the asset should show, so
-  the real one swaps in without moving the layout. On white, purple is for the logo, buttons and accents only.
+  the real one swaps in without moving the layout. Room accents appear only inside a Room.
 - Accessibility: one `h1` per page (`Page` or the hero provides it), visible labels,
   errors linked with `aria-describedby`, outcomes in a `role="status"` region, 44px touch
   targets.
@@ -103,11 +111,11 @@ yarn lint && yarn build    # both must pass before reporting work done
 
 ## Content rules
 
-- Copy lives in `src/content.ts`. Voice: warm, plain and slightly understated, like a
-  letter from a friend; British spelling, no exclamation marks, never "revolutionise",
+- Copy lives in `src/content.ts`. Voice: punchy, modern and unconventional (DESIGN.md §7
+  has the reference line); British spelling, no exclamation marks, never "revolutionise",
   "seamless" or "all-in-one".
 - Reviews are real, quoted with permission, or stay as placeholders.
-- Home, `/mission` and `/pledge` are built from `Screen`s, alternating white and purple.
+- Home, `/mission` and `/pledge` are built from `Screen`s, alternating ground and ink.
   Mission follows the owner's brief (2026-10-17): the mission over a full-bleed 16:9
   image, why we exist (one scene, with a 3:2 illustration), three numbered promises,
   "how we decide" pull quote over a 21:9 strip, then "Honaru started with a real reason"

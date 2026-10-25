@@ -1,4 +1,4 @@
-/* Three colours only: purple, black and white. No dark theme. Components use tokens. */
+/* Ground and ink, plus one accent per Room (DESIGN.md). No dark theme. Components use tokens. */
 
 /* Self-hosted (SIL OFL, /fonts/*-OFL.txt) so every device renders the same faces.
    font-display: block waits for them instead of flashing a system font. */
@@ -19,16 +19,32 @@
 :root {
   color-scheme: light;
 
-  --purple: #7c6ba8; /* logo, buttons, links, accents; 4.6:1 on white, white on it 4.6:1 */
-  --black: #000000;
-  --white: #ffffff;
+  /* Palette. The only hex values in the codebase, apart from favicon.svg and theme-color. */
+  --ground: #faf8f5;
+  --ink: #17151c; /* 17:1 with ground either way */
+  /* Room accents. Strong is 2.0-2.6:1 on ground, so never text or a focus ring there;
+     accent text is 7.6:1+ on its tint and 9:1+ on ground. */
+  --rose: #c98f83;
+  --rose-tint: #f1e0da;
+  --rose-text: #5a3d37;
+  --sage: #93a88d;
+  --sage-tint: #e3eae0;
+  --sage-text: #34432f;
+  --lavender: #b9a9d6;
+  --lavender-tint: #e8e1f2;
+  --lavender-text: #3f3556;
 
-  /* Roles. A [data-tone='purple'] section swaps them, so components adapt by themselves. */
-  --bg: var(--white);
-  --fg: var(--black);
-  --accent: var(--purple);
-  --on-accent: var(--white);
-  --selection: color-mix(in srgb, var(--purple) 30%, var(--white)); /* a tint, not a fourth colour */
+  /* The active Room. The site has none, so Lavender stands in until [data-room] says otherwise. */
+  --room-accent: var(--lavender);
+  --room-tint: var(--lavender-tint);
+  --room-accent-text: var(--lavender-text);
+
+  /* Roles. A [data-tone='ink'] section swaps them, so components adapt by themselves. */
+  --bg: var(--ground);
+  --fg: var(--ink);
+  --accent: var(--ink); /* logo, buttons, links, focus */
+  --on-accent: var(--ground);
+  --selection: var(--room-tint); /* ink on it is 14:1 */
 
   --header-height: 72px; /* the bar from 640px up; phones stack it taller */
 
@@ -40,13 +56,25 @@
   --text: 640px;
 }
 
-/* White on purple is 4.6:1, so body text and links stay AA. */
-[data-tone='purple'] {
-  --bg: var(--purple);
-  --fg: var(--white);
-  --accent: var(--white);
-  --on-accent: var(--purple);
-  --selection: color-mix(in srgb, var(--purple) 60%, var(--black));
+/* Ground on ink is 17:1. */
+[data-tone='ink'] {
+  --bg: var(--ink);
+  --fg: var(--ground);
+  --accent: var(--ground);
+  --on-accent: var(--ink);
+  --selection: var(--room-accent-text); /* ground on it is 10:1+ */
+
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* A Room's tint as the whole screen (Rooms page): ink on it is 14:1+, its accent text 7.6:1+. */
+[data-tone='room'] {
+  --bg: var(--room-tint);
+  --fg: var(--ink);
+  --accent: var(--room-accent-text);
+  --on-accent: var(--ground);
+  --selection: var(--room-accent); /* ink on it is 6.7:1+ */
 
   background: var(--bg);
   color: var(--fg);
@@ -207,13 +235,13 @@ h3,
 
 /*
  * Over a full-bleed image the header drops its background and lets the image show, with
- * white words and logo. The roles follow the purple tone, so the Download card stays legible.
+ * ground-coloured words and logo. The roles follow the ink tone, so the Download card stays legible.
  */
 .site-header[data-over-image] {
-  --bg: var(--purple);
-  --fg: var(--white);
-  --accent: var(--white);
-  --on-accent: var(--purple);
+  --bg: var(--ink);
+  --fg: var(--ground);
+  --accent: var(--ground);
+  --on-accent: var(--ink);
 
   background: transparent;
   color: var(--fg);
@@ -547,7 +575,13 @@ h3,
   }
 }
 
-/* Numbered promise cards: framed, a purple number, a large line icon. */
+/* "The feeling: …" in the Room's own accent text. */
+.room-mood {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Numbered promise cards: framed, an accent number, a large line icon. */
 .promise {
   display: grid;
   gap: 16px;
@@ -627,7 +661,7 @@ h3,
   font-size: 1.125rem;
 }
 
-/* Spaces carousel: COPIES sets of slides (Home.tsx) move left by one set, forever. */
+/* Rooms carousel: COPIES sets of slides (Home.tsx) move left by one set, forever. */
 /* Full viewport width: it sits outside .container, in the screen's bleed slot. */
 .carousel {
   overflow: hidden;
@@ -636,19 +670,19 @@ h3,
 .carousel__track {
   display: flex;
   inline-size: max-content;
-  animation: carousel 60s linear infinite;
+  animation: carousel 45s linear infinite; /* 15s a slide */
   will-change: transform; /* keep the moving strip pre-drawn on its own layer */
 }
 
 @keyframes carousel {
   to {
-    transform: translateX(-50%); /* one set of four: -100% / COPIES */
+    transform: translateX(calc(-100% / 3)); /* one set of three: -100% / COPIES */
   }
 }
 
-/* A quarter of the viewport each (never under 280px), so four always fill the screen.
-   Padding, not gap, so each set is exactly 1 / COPIES of the track. */
-.space-slide {
+/* A quarter of the viewport each (never under 280px). Padding, not gap, so each set is
+   exactly 1 / COPIES of the track. */
+.room-slide {
   display: grid;
   flex-shrink: 0;
   gap: 8px;
@@ -656,6 +690,46 @@ h3,
   padding-inline-end: 24px;
   box-sizing: content-box;
   text-align: start;
+}
+
+/* "Step inside", centred under the carousel, fully rounded. */
+.rooms-cta {
+  display: grid;
+  justify-items: center;
+  margin-block-start: 32px; /* on top of the screen's 32px gap */
+}
+
+.rooms-cta .button {
+  border-radius: 999px;
+}
+
+/* Each Room's own mood, keyed by `RoomId` (content.ts): its tint as a wash, framed in its
+   accent, drawn in its accent text. */
+[data-room='couple'] {
+  --room-accent: var(--rose);
+  --room-tint: var(--rose-tint);
+  --room-accent-text: var(--rose-text);
+}
+
+[data-room='family-friends'] {
+  --room-accent: var(--lavender);
+  --room-tint: var(--lavender-tint);
+  --room-accent-text: var(--lavender-text);
+}
+
+[data-room='travel'] {
+  --room-accent: var(--sage);
+  --room-tint: var(--sage-tint);
+  --room-accent-text: var(--sage-text);
+}
+
+.room-slide .illustration {
+  border-color: var(--room-accent);
+  background: var(--room-tint);
+}
+
+.room-slide .illustration .icon {
+  stroke: var(--room-accent-text);
 }
 
 .illustration {
@@ -929,7 +1003,7 @@ textarea.input {
     padding-inline-start: var(--gutter);
   }
 
-  .space-slide[aria-hidden] {
+  .room-slide[aria-hidden] {
     display: none;
   }
 }

@@ -11,7 +11,7 @@ export function Pledge() {
         <p className="lead">{pledge.lead}</p>
       </Screen>
 
-      <Screen tone="purple">
+      <Screen tone="ink">
         <h2 className="title">{pledge.why.title}</h2>
         <div className="prose">
           <p className="lead">{pledge.why.text}</p>
@@ -22,7 +22,7 @@ export function Pledge() {
         <p className="lead">{pledge.horizon.text}</p>
       </Screen>
 
-      <Screen tone="purple">
+      <Screen tone="ink">
         <h2 className="title">{pledge.promise.title}</h2>
         <p className="lead">{pledge.promise.text}</p>
       </Screen>

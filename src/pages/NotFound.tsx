@@ -5,8 +5,8 @@ export function NotFound() {
   return (
     <div className="hero container">
       <Mark line className="hero__arch" />
-      <h1 className="display">This page is not here.</h1>
-      <p className="lead">It may have moved, or the link may be mistyped.</p>
+      <h1 className="display">Nothing to see here.</h1>
+      <p className="lead">It's moved, or the link has a typo. Either way, it's not here.</p>
       <ButtonLink to="/" variant="secondary">
         Back to Honaru
       </ButtonLink>

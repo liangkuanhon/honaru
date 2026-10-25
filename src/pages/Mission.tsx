@@ -17,6 +17,15 @@ export function Mission() {
       </section>
 
       <Screen>
+        <p className="lead">{mission.story.lines}</p>
+      </Screen>
+
+      <Screen tone="ink">
+        <h2 className="title">{mission.reason.quote}</h2>
+        <p className="lead">{mission.reason.lines}</p>
+      </Screen>
+
+      <Screen>
         <div className="split">
           <div className="prose">
             <h2 className="title">{mission.why.title}</h2>
@@ -28,7 +37,7 @@ export function Mission() {
         </div>
       </Screen>
 
-      <Screen tone="purple">
+      <Screen tone="ink">
         <h2 className="title">{mission.promises.title}</h2>
         <CardGrid row>
           {mission.promises.items.map((promise, index) => (
@@ -42,7 +51,7 @@ export function Mission() {
         </CardGrid>
       </Screen>
 
-      <Screen tone="purple">
+      <Screen tone="ink">
         <h2 className="overline">{mission.decide.label}</h2>
         <blockquote className="pull-quote">{mission.decide.quote}</blockquote>
       </Screen>

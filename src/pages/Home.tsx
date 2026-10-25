@@ -1,26 +1,26 @@
-import { Illustration, Mark, Screen } from '../components/ui'
-import { problem, site, spaces } from '../content'
+import { ButtonLink, Illustration, Mark, Screen } from '../components/ui'
+import { problem, rooms, site } from '../content'
 
 // The track slides left by one set, then restarts. Each slide is a quarter of the viewport
-// (styles.css), so one set always fills the screen and two sets loop without a gap. Keep
-// in step with `carousel` in styles.css (-100% / COPIES).
-const COPIES = 2
+// (styles.css), so one set of three fills three quarters of it; three sets keep the screen
+// full while it loops. Keep in step with `carousel` in styles.css (-100% / COPIES).
+const COPIES = 3
 
 /**
- * The four Spaces on an endless, slow loop. Copies after the first are hidden from
+ * The three Rooms on an endless, slow loop. Copies after the first are hidden from
  * assistive tech; reduced motion turns it into a still, scrollable row.
  */
-function SpacesCarousel() {
+function RoomsCarousel() {
   return (
     <div className="carousel">
-      <ul className="carousel__track" aria-label="Spaces">
-        {Array.from({ length: COPIES }, () => spaces).flat().map((space, index) => {
-          const copy = index >= spaces.length
+      <ul className="carousel__track" aria-label="Rooms">
+        {Array.from({ length: COPIES }, () => rooms).flat().map((room, index) => {
+          const copy = index >= rooms.length
           return (
-            <li key={index} className="space-slide" aria-hidden={copy || undefined}>
-              <Illustration icon={space.icon} />
-              <h3>{space.label}</h3>
-              <p>{space.feeling}</p>
+            <li key={index} className="room-slide" data-room={room.id} aria-hidden={copy || undefined}>
+              <Illustration icon={room.icon} />
+              <h3>{room.label}</h3>
+              <p>{room.feeling}</p>
             </li>
           )
         })}
@@ -29,7 +29,7 @@ function SpacesCarousel() {
   )
 }
 
-/** Why Honaru exists, in three screens: belief, a human moment, the Spaces. */
+/** Why Honaru exists, in three screens: belief, a human moment, the Rooms. */
 export function Home() {
   return (
     <>
@@ -41,7 +41,7 @@ export function Home() {
         <p className="lead">{site.belief}</p>
       </div>
 
-      <Screen tone="purple">
+      <Screen tone="ink">
         <h2 className="title">Sound familiar?</h2>
         {problem.map((line) => (
           <p key={line} className="statement">
@@ -50,8 +50,17 @@ export function Home() {
         ))}
       </Screen>
 
-      <Screen bleed={<SpacesCarousel />}>
-        <h2 className="title">A home for each of your people</h2>
+      <Screen
+        bleed={
+          <>
+            <RoomsCarousel />
+            <div className="container rooms-cta">
+              <ButtonLink to="/rooms">Step inside</ButtonLink>
+            </div>
+          </>
+        }
+      >
+        <h2 className="title">Different people. Different rooms.</h2>
       </Screen>
     </>
   )

@@ -11,17 +11,17 @@ export function Careers() {
         <p className="lead">{careers.lead}</p>
       </Screen>
 
-      <Screen tone="purple">
+      <Screen tone="ink">
         <h2 className="title">{careers.people.title}</h2>
-        <Cards items={careers.people.items} />
+        <Cards items={careers.people.items} row />
       </Screen>
 
       <Screen>
         <h2 className="title">{careers.work.title}</h2>
-        <Cards items={careers.work.items} />
+        <Cards items={careers.work.items} row />
       </Screen>
 
-      <Screen tone="purple">
+      <Screen tone="ink">
         <h2 className="title">{careers.roles.title}</h2>
         <p className="lead">{careers.roles.text}</p>
       </Screen>

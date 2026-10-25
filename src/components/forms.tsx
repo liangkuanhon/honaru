@@ -57,7 +57,7 @@ function useForm(kind: keyof typeof endpoints, validate: (data: Record<string, s
       form.reset()
       setStatus({ state: 'success', message: success })
     } catch {
-      setStatus({ state: 'error', message: 'That did not go through. Please try again in a moment.' })
+      setStatus({ state: 'error', message: 'That didn\'t go through. Give it another go in a moment.' })
     }
   }
 
@@ -110,7 +110,7 @@ export function NewsletterForm() {
   const { errors, status, onSubmit, sending } = useForm(
     'newsletter',
     (data): Errors => (isEmail(data.email) ? {} : { email: 'Enter an email address, like name@example.com.' }),
-    'Thank you. We will write when Honaru is ready.',
+    'You\'re on the list. We\'ll be in touch the moment Honaru lands.',
   )
   return (
     <form className="newsletter-form" noValidate onSubmit={onSubmit}>
@@ -136,10 +136,10 @@ export function ContactForm() {
       if (!data.name?.trim()) found.name = 'Tell us your name.'
       if (!isEmail(data.email)) found.email = 'Enter an email address, like name@example.com.'
       if (!data.role) found.role = 'Choose the option closest to you.'
-      if ((data.message?.trim().length ?? 0) < 10) found.message = 'Write a few words so we can reply properly.'
+      if ((data.message?.trim().length ?? 0) < 10) found.message = 'Give us a few more words so we can reply properly.'
       return found
     },
-    'Thank you. We read every message and will reply soon.',
+    'Got it. We read every message, and we\'ll reply soon.',
   )
   return (
     <form className="contact-form" noValidate onSubmit={onSubmit} aria-label="Contact">
@@ -176,7 +176,7 @@ export function ContactForm() {
         <button className="button button--primary" type="submit" disabled={sending}>
           {sending ? 'Sending…' : 'Send message'}
         </button>
-        <p className="caption">We only use your details to reply to you.</p>
+        <p className="caption">Your details are for replying to you. Nothing else.</p>
       </div>
       <FormFooter status={status} />
     </form>

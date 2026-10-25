@@ -1,5 +1,5 @@
 import { useState, type AnchorHTMLAttributes, type MouseEvent, type ReactNode } from 'react'
-import { appIsLive, isPlaceholder, site } from '../content'
+import { appIsLive, isPlaceholder, site, type RoomId } from '../content'
 import { navigate, usePathname, type Path } from '../router'
 import { NewsletterForm } from './forms'
 import { Icon, type IconName } from './Icon'
@@ -53,11 +53,12 @@ export function Page({ overline, title, lead, children }: { overline: string; ti
 
 /**
  * One calm, centred, near-full-height screen; Home, Mission and Pledge are built from
- * these. `tone` turns it purple (the header follows); `bleed` spans the viewport width.
+ * these. `tone` turns it ink, `room` washes it in that Room's tint (the header follows
+ * either); `bleed` spans the viewport width.
  */
-export function Screen({ tone, bleed, children }: { tone?: 'purple'; bleed?: ReactNode; children: ReactNode }) {
+export function Screen({ tone, room, bleed, children }: { tone?: 'ink'; room?: RoomId; bleed?: ReactNode; children: ReactNode }) {
   return (
-    <section className="screen" data-tone={tone}>
+    <section className="screen" data-tone={room ? 'room' : tone} data-room={room}>
       <div className="container screen__inner">{children}</div>
       {bleed}
     </section>

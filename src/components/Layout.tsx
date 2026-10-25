@@ -31,11 +31,7 @@ const footerNav: { heading: string; items: NavItem[] }[] = [
   {
     heading: 'Resources',
     items: [
-      { label: 'Home', to: '/' },
-      { label: 'Mission', to: '/mission' },
-      { label: 'Pledge', to: '/pledge' },
-      { label: 'Careers', to: '/careers' },
-      { label: 'Contact', to: '/contact' },
+      { label: 'Rooms', to: '/rooms' },
     ],
   },
   { heading: 'Legal', items: [{ label: 'Privacy', to: '/privacy' }] },
@@ -93,13 +89,13 @@ function SocialLinks() {
 }
 
 /**
- * The `data-tone` of the section under the header's bottom edge (undefined over plain
- * white), and whether a full-bleed image covers the whole header. Rechecked once per frame
+ * The `data-tone` (and `data-room`) of the section under the header's bottom edge
+ * (undefined over plain ground), and whether a full-bleed image covers the whole header. Rechecked once per frame
  * while scrolling or resizing, and on every route change.
  */
 function useWhatIsUnder(header: RefObject<HTMLElement | null>) {
   const pathname = usePathname()
-  const [under, setUnder] = useState<{ tone?: string; image: boolean }>({ image: false })
+  const [under, setUnder] = useState<{ tone?: string; room?: string; image: boolean }>({ image: false })
 
   useEffect(() => {
     let frame = 0
@@ -114,8 +110,9 @@ function useWhatIsUnder(header: RefObject<HTMLElement | null>) {
         const { top, bottom } = element.getBoundingClientRect()
         return top <= headerTop + 1 && bottom >= line
       })
+      const { tone, room } = section?.dataset ?? {}
       setUnder((previous) =>
-        previous.tone === section?.dataset.tone && previous.image === image ? previous : { tone: section?.dataset.tone, image },
+        previous.tone === tone && previous.room === room && previous.image === image ? previous : { tone, room, image },
       )
     }
     function schedule() {
@@ -137,16 +134,16 @@ function useWhatIsUnder(header: RefObject<HTMLElement | null>) {
   return under
 }
 
-/** Header (links either side of a centred brand), the page in `<main>`, and a purple footer. */
+/** Header (links either side of a centred brand), the page in `<main>`, and an ink footer. */
 export function Layout({ children }: { children: ReactNode }) {
   const header = useRef<HTMLElement>(null)
-  const { tone, image } = useWhatIsUnder(header)
+  const { tone, room, image } = useWhatIsUnder(header)
   return (
     <>
       <a className="skip-link" href="#main">
         Skip to content
       </a>
-      <header className="site-header" ref={header} data-tone={tone} data-over-image={image || undefined}>
+      <header className="site-header" ref={header} data-tone={tone} data-room={room} data-over-image={image || undefined}>
         <nav className="container site-header__bar" aria-label="Main">
           <NavList items={startNav} className="nav-links nav-links--start" />
           <Brand />
@@ -156,7 +153,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <main id="main" tabIndex={-1}>
         {children}
       </main>
-      <footer className="site-footer" data-tone="purple">
+      <footer className="site-footer" data-tone="ink">
         <div className="container site-footer__inner">
           <div className="site-footer__about">
             <Brand />

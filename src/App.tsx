@@ -7,6 +7,7 @@ import { Mission } from './pages/Mission'
 import { NotFound } from './pages/NotFound'
 import { Pledge } from './pages/Pledge'
 import { Privacy } from './pages/Privacy'
+import { Rooms } from './pages/Rooms'
 import { usePathname, type Path } from './router'
 
 // Record<Path, …> makes the compiler insist every route in router.ts has a page.
@@ -15,6 +16,7 @@ const routes: Record<Path, { title: string; page: ComponentType }> = {
   '/mission': { title: 'Mission · Honaru', page: Mission },
   '/pledge': { title: 'Pledge · Honaru', page: Pledge },
   '/careers': { title: 'Careers · Honaru', page: Careers },
+  '/rooms': { title: 'Rooms · Honaru', page: Rooms },
   '/contact': { title: 'Contact · Honaru', page: Contact },
   '/privacy': { title: 'Privacy · Honaru', page: Privacy },
 }
