@@ -33,7 +33,7 @@ function RoomsCarousel() {
 export function Home() {
   return (
     <>
-      <div className="hero container">
+      <div className="hero hero--centred container">
         <Mark line className="hero__arch" />
         <h1 className="hero__tagline">
           <span>Made for</span> <span className="hero__accent">your people.</span>

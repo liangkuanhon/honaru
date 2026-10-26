@@ -2,12 +2,14 @@ import { useEffect, type ComponentType } from 'react'
 import { Layout } from './components/Layout'
 import { Careers } from './pages/Careers'
 import { Contact } from './pages/Contact'
+import { Cookies } from './pages/Cookies'
 import { Home } from './pages/Home'
 import { Mission } from './pages/Mission'
 import { NotFound } from './pages/NotFound'
 import { Pledge } from './pages/Pledge'
 import { Privacy } from './pages/Privacy'
 import { Rooms } from './pages/Rooms'
+import { Terms } from './pages/Terms'
 import { usePathname, type Path } from './router'
 
 // Record<Path, …> makes the compiler insist every route in router.ts has a page.
@@ -18,7 +20,9 @@ const routes: Record<Path, { title: string; page: ComponentType }> = {
   '/careers': { title: 'Careers · Honaru', page: Careers },
   '/rooms': { title: 'Rooms · Honaru', page: Rooms },
   '/contact': { title: 'Contact · Honaru', page: Contact },
-  '/privacy': { title: 'Privacy · Honaru', page: Privacy },
+  '/privacy': { title: 'Privacy Policy · Honaru', page: Privacy },
+  '/terms': { title: 'Terms of Use · Honaru', page: Terms },
+  '/cookies': { title: 'Cookie Policy · Honaru', page: Cookies },
 }
 
 /** Picks the page for the current path and keeps the tab title in step. */

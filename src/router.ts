@@ -1,7 +1,7 @@
 import { useSyncExternalStore } from 'react'
 
 /** Every route in the site. `Link` only accepts these, so a typo is a type error. */
-export const paths = ['/', '/mission', '/pledge', '/careers', '/rooms', '/contact', '/privacy'] as const
+export const paths = ['/', '/mission', '/pledge', '/careers', '/rooms', '/contact', '/privacy', '/terms', '/cookies'] as const
 export type Path = (typeof paths)[number]
 
 const NAVIGATE = 'honaru:navigate'

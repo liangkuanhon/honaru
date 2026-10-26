@@ -19,6 +19,9 @@ export function Careers() {
       <Screen>
         <h2 className="title">{careers.work.title}</h2>
         <Cards items={careers.work.items} row />
+        <ButtonLink to="/mission" variant="secondary">
+          Read our mission
+        </ButtonLink>
       </Screen>
 
       <Screen tone="ink">
@@ -30,11 +33,8 @@ export function Careers() {
         <h2 className="title">{careers.closing.title}</h2>
         <p className="lead">{careers.closing.lead}</p>
         <p>
-          <EmailLink />
+          <EmailLink email={careers.email} />
         </p>
-        <ButtonLink to="/contact" variant="secondary">
-          Get in touch
-        </ButtonLink>
       </Screen>
     </>
   )

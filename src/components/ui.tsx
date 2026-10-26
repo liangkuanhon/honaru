@@ -1,5 +1,5 @@
 import { useState, type AnchorHTMLAttributes, type MouseEvent, type ReactNode } from 'react'
-import { appIsLive, isPlaceholder, site, type RoomId } from '../content'
+import { appIsLive, cookies, isPlaceholder, site, terms, type Policy, type PolicyBlock, type RoomId } from '../content'
 import { navigate, usePathname, type Path } from '../router'
 import { NewsletterForm } from './forms'
 import { Icon, type IconName } from './Icon'
@@ -38,12 +38,12 @@ export function EmailLink({ email = site.email }: { email?: string }) {
 }
 
 /** The opening block of an inner page: overline, one `h1`, optional lead, then content. */
-export function Page({ overline, title, lead, children }: { overline: string; title: string; lead?: ReactNode; children: ReactNode }) {
+export function Page({ overline, title, lead, children }: { overline: string; title: string; lead?: ReactNode; children?: ReactNode }) {
   return (
     <div className="page container">
       <header className="page__header">
         <p className="overline">{overline}</p>
-        <h1 className="display">{title}</h1>
+        <h1 className="hero__tagline">{title}</h1>
         {lead && <p className="lead">{lead}</p>}
       </header>
       {children}
@@ -52,7 +52,7 @@ export function Page({ overline, title, lead, children }: { overline: string; ti
 }
 
 /**
- * One calm, centred, near-full-height screen; Home, Mission and Pledge are built from
+ * One calm, near-full-height screen; Home, Mission and Pledge are built from
  * these. `tone` turns it ink, `room` washes it in that Room's tint (the header follows
  * either); `bleed` spans the viewport width.
  */
@@ -65,10 +65,10 @@ export function Screen({ tone, room, bleed, children }: { tone?: 'ink'; room?: R
   )
 }
 
-/** A titled block inside a page. */
-export function Section({ title, children }: { title: string; children: ReactNode }) {
+/** A titled block inside a page; `id` lets a contents list link to it. */
+export function Section({ id, title, children }: { id?: string; title: string; children: ReactNode }) {
   return (
-    <section className="section">
+    <section className="section" id={id}>
       <h2 className="title">{title}</h2>
       {children}
     </section>
@@ -211,5 +211,80 @@ export function Illustration({ label, src, icon, ratio = '4:5', bleed = false }:
       {icon ? <Icon name={icon} /> : <Mark line className="illustration__mark" />}
       {label && <span className="caption placeholder">{label}</span>}
     </div>
+  )
+}
+
+/** One paragraph, subheading or term list of a policy. */
+// Each legal page's name, wherever a policy mentions it, links to that page.
+const policyLinks: Record<string, Path> = { [terms.title]: '/terms', [cookies.title]: '/cookies' }
+const policyLinkPattern = new RegExp(`(${Object.keys(policyLinks).join('|')})`)
+
+/** Policy text with the other legal pages' names as links. */
+function PolicyText({ text }: { text: string }) {
+  return text
+    .split(policyLinkPattern)
+    .map((part, i) => (policyLinks[part] ? <Link key={i} to={policyLinks[part]}>{part}</Link> : part))
+}
+
+function Block({ block }: { block: PolicyBlock }) {
+  if ('heading' in block) return <h3 className="headline">{block.heading}</h3>
+  if ('text' in block)
+    return (
+      <p>
+        <PolicyText text={block.text} />
+      </p>
+    )
+  return (
+    <dl className="terms">
+      {block.list.map((item) => (
+        <div key={item.term}>
+          <dt>{item.term}</dt>
+          <dd>
+            <p>
+              <PolicyText text={item.text} />
+            </p>
+            {item.notes?.map((note) => (
+              <p key={note} className="caption">
+                <PolicyText text={note} />
+              </p>
+            ))}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
+/** A legal page: contents, then one numbered section per topic, ending with the contact email. */
+export function PolicyPage({ policy }: { policy: Policy }) {
+  return (
+    <Page overline="Legal" title={policy.title} lead={policy.lead}>
+      <div className="prose">
+        {policy.status && <p className="caption">{policy.status}</p>}
+        <nav aria-label="Contents">
+          <ol className="contents">
+            {policy.sections.map((section) => (
+              <li key={section.id}>
+                <a href={`#${section.id}`}>{section.title}</a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </div>
+      {policy.sections.map((section, index) => (
+        <Section key={section.id} id={section.id} title={`${index + 1}. ${section.title}`}>
+          <div className="prose">
+            {section.blocks.map((block, i) => (
+              <Block key={i} block={block} />
+            ))}
+            {section.id === 'contact-us' && (
+              <p>
+                <EmailLink email={policy.contactEmail} />
+              </p>
+            )}
+          </div>
+        </Section>
+      ))}
+    </Page>
   )
 }

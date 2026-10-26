@@ -19,6 +19,13 @@ const endNav: NavItem[] = [
 
 const footerNav: { heading: string; items: NavItem[] }[] = [
   {
+    heading: 'Download',
+    items: [
+      { label: 'Android', to: '/' },
+      { label: 'iOS', to: '/' },
+    ],
+  },
+  {
     heading: 'Index',
     items: [
       { label: 'Home', to: '/' },
@@ -34,7 +41,13 @@ const footerNav: { heading: string; items: NavItem[] }[] = [
       { label: 'Rooms', to: '/rooms' },
     ],
   },
-  { heading: 'Legal', items: [{ label: 'Privacy', to: '/privacy' }] },
+  { heading: 'Legal', 
+    items: [
+      { label: 'Terms', to: '/terms' },
+      { label: 'Privacy', to: '/privacy' },
+      { label: 'Cookie Policy', to: '/cookies' },
+    ],
+  },
 ]
 
 /** Links; a `popup` item is a button that shows its panel on hover or focus (pointer devices only). */

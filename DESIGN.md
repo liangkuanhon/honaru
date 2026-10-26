@@ -16,7 +16,7 @@ direction of 2026-10-17; colours replaced 2026-10-25.
   Couple, Family & Friends, and Travel.
 - **Slogan:** "Made for your people."
 - **Promises:** one Room for each kind of relationship; conversations and data are never
-  sold; location sharing is opt-in with no background tracking; no investors. These are
+  sold; location sharing is opt-in with no background tracking. These are
   the owner's commitments; never soften or add to them.
 - **Giving back:** part of what Honaru earns helps a few people far from home each year
   get back, or feel less far. No fixed percentage.
@@ -54,11 +54,11 @@ right; Download is not a page, only a hover card with the App Store QR code. Foo
 | Route | Screens |
 | --- | --- |
 | `/` | Hero (the belief) · the problem as one human moment · the three Rooms on a slow loop |
-| `/mission` | The mission over a 16:9 image · why we exist, with a 3:2 illustration · three numbered promises · "how we decide" pull quote over a 21:9 strip · "Honaru started with a real reason", linking to `/pledge` · waitlist |
+| `/mission` | The mission over a 16:9 image · why we exist, with a 3:2 illustration · two numbered promises · "how we decide" pull quote over a 21:9 strip · "Honaru started with a real reason", linking to `/pledge` · waitlist |
 | `/pledge` | "Giving back" hero · why this matters to me (the founder's own words) · what we'll do · closing |
-| `/careers` | Hero · who we hope to meet · how we work · open roles · closing |
+| `/careers` | Hero · who we hope to meet · how we work, with a button to `/mission` · open roles · closing |
 | `/rooms` | "Every relationship gets a room of its own." · one screen per Room in its tint: who it is for, the feeling, the place (owner's copy). Linked only from the footer (Resources → Rooms) and the carousel's "Step inside" button; never in the header |
-| `/contact` | Email and contact form |
+| `/contact` | Three inboxes: support@, careers@, hello@ for everything else |
 | `/privacy` | Privacy note |
 
 Home, `/mission` and `/pledge` are built from full screens alternating ground and ink.

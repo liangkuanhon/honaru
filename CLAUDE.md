@@ -43,12 +43,13 @@ src/
 ├── styles.css          tokens and every style
 ├── components/
 │   ├── ui.tsx          Link, ButtonLink, Screen, Page, Section, Card, CardGrid, Cards,
-│   │                   Mark, Brand, StoreBadges, GetApp, Illustration, EmailLink
+│   │                   Mark, Brand, StoreBadges, GetApp, Illustration, EmailLink,
+│   │                   PolicyPage
 │   ├── Layout.tsx      header, <main>, footer
-│   ├── forms.tsx       NewsletterForm, ContactForm (one useForm hook, one Field)
+│   ├── forms.tsx       NewsletterForm (useForm hook, Field)
 │   └── Icon.tsx        line icons
 └── pages/              Home, Mission, Pledge, Careers, Rooms, Contact,
-                        Privacy, NotFound
+                        Privacy, Terms, Cookies, NotFound
 ```
 
 ## Routing
@@ -117,18 +118,18 @@ yarn lint && yarn build    # both must pass before reporting work done
 - Reviews are real, quoted with permission, or stay as placeholders.
 - Home, `/mission` and `/pledge` are built from `Screen`s, alternating ground and ink.
   Mission follows the owner's brief (2026-10-17): the mission over a full-bleed 16:9
-  image, why we exist (one scene, with a 3:2 illustration), three numbered promises,
+  image, why we exist (one scene, with a 3:2 illustration), two numbered promises,
   "how we decide" pull quote over a 21:9 strip, then "Honaru started with a real reason"
-  linking to the founder's story on `/pledge`, and the waitlist. The promises (never
-  selling data, no investors) are the owner's commitments; do not soften or add to them.
+  linking to the founder's story on `/pledge`, and the waitlist. The promises (one Room
+  per relationship, never selling data) are the owner's commitments; do not soften or add to them.
 - Pledge follows the owner's rewrite (2026-10-17): "Giving back" hero, why this matters
   to me (the founder's own words, never written for them), what we'll do, closing. No
   reporting section until giving back has actually started. Never commit to a percentage: each year a few people far from home are
   chosen. The giving-back ideas stay marked as a draft until confirmed; recipients are
   named only with their permission.
-- Careers: hero, who we hope to meet, how we work, open roles, closing. The traits we
-  look for (believing in what Honaru is for, giving back, looking out for those with
-  less) are implied through small moments, never listed outright.
+- Careers: hero, who we hope to meet, how we work (with a button to `/mission`), open
+  roles, closing. The traits we look for are the owner's (2026-10-25): empathetic, high
+  agency, strong ownership.
 - The header's Download is a button, not a link (there is no download page): it shows a
   QR card on hover or focus (pointer devices only); a placeholder until the App Store
   listing exists.
@@ -140,9 +141,11 @@ yarn lint && yarn build    # both must pass before reporting work done
 
 ## Forms
 
-- Both forms post JSON to `VITE_NEWSLETTER_ENDPOINT` / `VITE_CONTACT_ENDPOINT`. With none
-  set, dev fakes success and production shows "email us instead"; never report success
-  for data that went nowhere.
+- The waitlist form posts JSON to `VITE_NEWSLETTER_ENDPOINT`. Unset, dev fakes success
+  and production shows "email us instead"; never report success for data that went
+  nowhere.
+- `/contact` has no form (owner, 2026-10-25): support@, careers@ and hello@ for
+  everything else, from `contact` in `content.ts`.
 - A honeypot field filters bots. Adding a form service adds a vendor: flag it, and add its
   origin to `connect-src` in `public/_headers`.
 

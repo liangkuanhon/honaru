@@ -1,11 +1,10 @@
 import { useId, useState, type FormEvent, type ReactNode } from 'react'
-import { audiences, site } from '../content'
+import { site } from '../content'
 
 // Form backend not chosen yet (a form service or a Cloudflare Pages Function). Each form
 // posts JSON to its endpoint; set them as build variables.
 const endpoints = {
   newsletter: import.meta.env.VITE_NEWSLETTER_ENDPOINT,
-  contact: import.meta.env.VITE_CONTACT_ENDPOINT,
 }
 
 const HONEYPOT = 'website'
@@ -121,62 +120,6 @@ export function NewsletterForm() {
         <button className="button button--primary" type="submit" disabled={sending}>
           {sending ? 'Joining…' : 'Join'}
         </button>
-      </div>
-      <FormFooter status={status} />
-    </form>
-  )
-}
-
-/** "Work with us" form for partners, press, creators, investors and others. */
-export function ContactForm() {
-  const { errors, status, onSubmit, sending } = useForm(
-    'contact',
-    (data): Errors => {
-      const found: Errors = {}
-      if (!data.name?.trim()) found.name = 'Tell us your name.'
-      if (!isEmail(data.email)) found.email = 'Enter an email address, like name@example.com.'
-      if (!data.role) found.role = 'Choose the option closest to you.'
-      if ((data.message?.trim().length ?? 0) < 10) found.message = 'Give us a few more words so we can reply properly.'
-      return found
-    },
-    'Got it. We read every message, and we\'ll reply soon.',
-  )
-  return (
-    <form className="contact-form" noValidate onSubmit={onSubmit} aria-label="Contact">
-      <div className="contact-form__pair">
-        <Field name="name" label="Name" error={errors.name}>
-          {(props) => <input {...props} className="input" autoComplete="name" required />}
-        </Field>
-        <Field name="email" label="Email" error={errors.email}>
-          {(props) => <input {...props} className="input" type="email" autoComplete="email" required />}
-        </Field>
-      </div>
-      <Field name="role" label="I'm reaching out as…" error={errors.role}>
-        {(props) => (
-          <select {...props} className="input" required defaultValue="">
-            <option value="" disabled>
-              Choose one
-            </option>
-            {audiences.map((audience) => (
-              <option key={audience.value} value={audience.value}>
-                {audience.title}
-              </option>
-            ))}
-            <option value="other">Something else</option>
-          </select>
-        )}
-      </Field>
-      <Field name="organisation" label="Organisation" optional>
-        {(props) => <input {...props} className="input" autoComplete="organization" />}
-      </Field>
-      <Field name="message" label="Message" error={errors.message}>
-        {(props) => <textarea {...props} className="input" rows={6} required />}
-      </Field>
-      <div>
-        <button className="button button--primary" type="submit" disabled={sending}>
-          {sending ? 'Sending…' : 'Send message'}
-        </button>
-        <p className="caption">Your details are for replying to you. Nothing else.</p>
       </div>
       <FormFooter status={status} />
     </form>

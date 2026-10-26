@@ -46,7 +46,7 @@
   --on-accent: var(--ground);
   --selection: var(--room-tint); /* ink on it is 14:1 */
 
-  --header-height: 72px; /* the bar from 640px up; phones stack it taller */
+  --header-height: 72px; /* the bar from 640px up; phones stack it taller (below) */
 
   --font-heading: 'Newsreader', serif;
   --font-body: 'DM Sans', sans-serif;
@@ -54,6 +54,7 @@
   --gutter: 16px;
   --content: 1120px;
   --text: 640px;
+  --hero-top: clamp(128px, 34svh, 360px); /* where every page's first words start */
 }
 
 /* Ground on ink is 17:1. */
@@ -163,12 +164,6 @@ h3,
   text-wrap: balance;
 }
 
-.display {
-  font-size: clamp(2.75rem, 2rem + 3vw, 4.5rem);
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-}
-
 .title {
   max-inline-size: 900px;
   font-size: clamp(2rem, 1.5rem + 2.2vw, 3.25rem);
@@ -205,6 +200,7 @@ h3,
 /* Layout */
 
 .container {
+  inline-size: 100%; /* in a grid, auto margins would shrink it to its content and centre it */
   max-inline-size: calc(var(--content) + 2 * var(--gutter));
   margin-inline: auto;
   padding-inline: var(--gutter);
@@ -272,6 +268,10 @@ h3,
 
 /* Phones: brand on its own row, the two link groups beneath it. */
 @media (max-width: 639px) {
+  :root {
+    --header-height: 96px; /* 8px + the brand row + the links row, 44px each */
+  }
+
   .site-header__bar {
     grid-template-columns: auto auto;
     grid-template-areas:
@@ -360,13 +360,11 @@ h3,
   z-index: 1;
   display: none;
   gap: 12px;
-  justify-items: center;
   inline-size: 200px;
   padding: 16px;
   border: 1px solid var(--fg);
   border-radius: var(--radius);
   background: var(--bg);
-  text-align: center;
 }
 
 @media (hover: hover) {
@@ -425,7 +423,7 @@ h3,
 
 .site-footer__nav {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
 }
 
@@ -434,19 +432,17 @@ h3,
     grid-template-columns: 1fr auto;
   }
 
+  /* One column per link group, in the order of footerNav, however many there are. */
   .site-footer__nav {
-    grid-template-columns: repeat(3, minmax(120px, auto));
+    grid-auto-columns: minmax(120px, auto);
+    grid-auto-flow: column;
+    grid-template-columns: none;
     gap: 48px;
   }
 }
 
-.page {
-  padding-block: 64px 0;
-}
-
 .page__header {
   display: grid;
-  gap: 16px;
   margin-block-end: 48px;
 }
 
@@ -462,15 +458,94 @@ h3,
   max-inline-size: var(--text);
 }
 
+/* Links inside running text are the same ink, so the underline is what marks them. */
+.prose p a {
+  text-decoration: underline;
+}
+
+/* A section reached from a contents list lands below the sticky header. */
+.section[id] {
+  scroll-margin-block-start: calc(var(--header-height) + 24px);
+}
+
+/* Many sections in a row, so a smaller title: twice the body size. */
+.section[id] > .title {
+  font-size: 2.125rem;
+}
+
+.contents {
+  display: grid;
+  gap: 4px;
+  list-style: decimal inside;
+}
+
+.contents a {
+  display: inline-block;
+  padding-block: 10px; /* 44px touch target */
+}
+
+/* Terms and what they mean, as in a privacy policy: a rule between each. */
+.terms {
+  display: grid;
+  margin: 0;
+  max-inline-size: var(--text);
+}
+
+.terms > div {
+  display: grid;
+  gap: 4px;
+  padding-block: 16px;
+  border-block-start: 1px solid var(--fg);
+}
+
+.terms dt {
+  font-weight: 600;
+}
+
+.terms dd {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+/*
+ * The first screen of every page fills the window beneath the header, and its words start
+ * in the same place on every page: the content column's left edge, --hero-top down.
+ */
+.hero,
+main > .screen:first-child,
+.media-hero,
+.page__header {
+  min-block-size: calc(100svh - var(--header-height));
+}
+
+.hero,
+main > .screen:first-child,
+.page__header {
+  align-content: start;
+  padding-block: var(--hero-top) 48px;
+}
+
+.hero,
+main > .screen:first-child > .screen__inner,
+.media-hero__text,
+.page__header {
+  gap: 24px;
+}
+
 /* Home */
 
 .hero {
   display: grid;
+  justify-items: start;
+}
+
+/* Home's hero is the one exception: centred both ways, by the owner's choice. The
+   extra header's height at the bottom centres it on the window, not the space below. */
+.hero.hero--centred {
   justify-items: center;
   align-content: center;
-  gap: 32px;
-  min-block-size: 85svh;
-  padding-block: 48px;
+  padding-block: 48px calc(48px + var(--header-height));
   text-align: center;
 }
 
@@ -515,9 +590,8 @@ h3,
 .screen__inner {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  justify-items: center;
+  justify-items: start;
   gap: 32px;
-  text-align: center;
 }
 
 .screen__inner > .card-grid,
@@ -525,12 +599,16 @@ h3,
   justify-self: stretch;
 }
 
+/* Text on a screen runs up to 1080px; inner pages keep the narrower --text measure. */
+:is(.screen__inner, .hero) :is(.title, .lead, .prose, .statement, .pull-quote) {
+  max-inline-size: 1080px;
+}
+
 /* Words beside an image from tablet width; stacked, words first, on phones. */
 .split {
   display: grid;
   gap: 32px;
   align-items: center;
-  text-align: start;
 }
 
 @media (min-width: 768px) {
@@ -543,35 +621,57 @@ h3,
 /* Mission hero: the words over a full-bleed 16:9 image on wide screens. */
 .media-hero {
   display: grid;
+  grid-template-rows: 1fr auto; /* phones: the words take the room the image leaves */
 }
 
 .media-hero__text {
   display: grid;
+  align-content: start;
   order: -1;
-  justify-items: center;
-  gap: 24px;
-  padding: 64px var(--gutter);
-  text-align: center;
+  justify-items: start;
+  padding: var(--hero-top) var(--gutter) 48px;
 }
 
 @media (min-width: 1024px) {
   /* With a real image, start it under the transparent header. */
   .media-hero:has(> .illustration--image) {
+    min-block-size: 100svh;
     margin-block-start: calc(-1 * var(--header-height));
+  }
+
+  .media-hero {
+    grid-template-rows: 1fr;
   }
 
   .media-hero > * {
     grid-area: 1 / 1;
   }
 
+  /* The image covers the whole screen, cropped rather than letterboxed. */
+  .media-hero > .illustration {
+    aspect-ratio: auto;
+    block-size: 100%; /* an <img> would otherwise keep its own 16:9 height */
+  }
+
+  /* A panel over the photo whose words still start where every hero's do: it pads out
+     from the content column by as much as fits, up to 48px. */
   .media-hero__text {
+    --column: min(100% - 2 * var(--gutter), var(--content));
+    --pad: min(48px, (100% - var(--column)) / 2);
+
     order: 0; /* back in DOM order, so it paints over the image */
-    align-self: center;
+    align-self: start;
     justify-self: center;
-    inline-size: min(100% - 2 * var(--gutter), 880px);
-    padding: 48px;
+    inline-size: calc(var(--column) + 2 * var(--pad));
+    margin-block-start: calc(var(--hero-top) - var(--pad));
+    padding: var(--pad);
     border-radius: var(--radius);
     background: color-mix(in srgb, var(--bg) 85%, transparent); /* keeps text readable over the photo */
+  }
+
+  /* Under the transparent header, so start the words a header lower. */
+  .media-hero:has(> .illustration--image) > .media-hero__text {
+    margin-block-start: calc(var(--header-height) + var(--hero-top) - var(--pad));
   }
 }
 
@@ -589,7 +689,6 @@ h3,
   padding: 24px;
   border: 1px solid var(--fg);
   border-radius: var(--radius);
-  text-align: start;
 }
 
 .promise__number {
@@ -626,7 +725,6 @@ h3,
   gap: 32px;
   align-items: start;
   inline-size: min(100%, 880px);
-  text-align: start;
 }
 
 .story .illustration {
@@ -650,10 +748,6 @@ h3,
   font-weight: 300;
   line-height: 1.35;
   text-wrap: balance;
-}
-
-.review {
-  text-align: start;
 }
 
 .review blockquote {
@@ -689,18 +783,20 @@ h3,
   inline-size: max(280px, 25vw - 24px);
   padding-inline-end: 24px;
   box-sizing: content-box;
-  text-align: start;
 }
 
-/* "Step inside", centred under the carousel, fully rounded. */
+/* "Step inside", under the carousel, fully rounded. */
 .rooms-cta {
   display: grid;
-  justify-items: center;
+  justify-items: start;
   margin-block-start: 32px; /* on top of the screen's 32px gap */
 }
 
-.rooms-cta .button {
-  border-radius: 999px;
+/* The purple of selected text on ink; ground on it is 10:1+. */
+.rooms-cta .button:hover {
+  border-color: var(--room-accent-text);
+  background: var(--room-accent-text);
+  color: var(--ground);
 }
 
 /* Each Room's own mood, keyed by `RoomId` (content.ts): its tint as a wash, framed in its
@@ -740,7 +836,6 @@ h3,
   padding: 16px;
   border: 1px solid var(--accent);
   border-radius: var(--radius);
-  text-align: center;
 }
 
 .illustration--4x5 {
@@ -808,7 +903,7 @@ h3,
   min-block-size: 48px;
   padding: 12px 24px;
   border: 1px solid var(--accent);
-  border-radius: var(--radius);
+  border-radius: 999px; /* fully rounded */
   font-weight: 500;
   line-height: 1.2;
   cursor: pointer;
@@ -857,8 +952,11 @@ h3,
     gap: 24px;
   }
 
+  /* All side by side, one column per card. */
   .card-grid--row {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: none;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
   }
 }
 
@@ -885,7 +983,6 @@ h3,
   border-radius: var(--radius);
   color: var(--fg);
   line-height: 1.2;
-  text-align: start;
 }
 
 .store-badge .icon {
@@ -903,15 +1000,10 @@ h3,
 
 /* Forms */
 
-.newsletter-form,
-.contact-form {
+.newsletter-form {
   display: grid;
   gap: 16px;
   max-inline-size: var(--text);
-}
-
-.contact-form {
-  gap: 24px;
 }
 
 .newsletter-form__row {
@@ -926,21 +1018,9 @@ h3,
   }
 }
 
-.contact-form__pair {
-  display: grid;
-  gap: 24px;
-}
-
-@media (min-width: 768px) {
-  .contact-form__pair {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
 .field {
   display: grid;
   gap: 8px;
-  text-align: start;
 }
 
 .field label {

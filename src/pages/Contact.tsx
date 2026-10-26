@@ -1,16 +1,18 @@
-import { ContactForm } from '../components/forms'
-import { EmailLink, Page } from '../components/ui'
+import { EmailLink, Page, Section } from '../components/ui'
+import { contact } from '../content'
 
-/** Email and the contact form, for partners, press, creators, investors and anyone else. */
+/** One inbox each for support, careers and everything else. */
 export function Contact() {
   return (
-    <Page overline="Contact" title="Say hello" lead="Partners, press, creators, investors, the curious. We read every message.">
-      <div className="prose">
-        <p>
-          Email <EmailLink />, or use the form.
-        </p>
-        <ContactForm />
-      </div>
+    <Page overline="Contact" title="Say hello" lead={contact.lead}>
+      {contact.inboxes.map((inbox) => (
+        <Section key={inbox.email} title={inbox.title}>
+          <p>{inbox.text}</p>
+          <p>
+            <EmailLink email={inbox.email} />
+          </p>
+        </Section>
+      ))}
     </Page>
   )
 }
