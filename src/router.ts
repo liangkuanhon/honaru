@@ -4,6 +4,11 @@ import { useSyncExternalStore } from 'react'
 export const paths = ['/', '/mission', '/pledge', '/careers', '/rooms', '/contact', '/privacy', '/terms', '/cookies'] as const
 export type Path = (typeof paths)[number]
 
+/** The invite token in `/join/<token>`, or null for any other path. The app checks it, not the site. */
+export function joinToken(pathname: string): string | null {
+  return /^\/join\/([^/]+)$/.exec(pathname)?.[1] ?? null
+}
+
 const NAVIGATE = 'honaru:navigate'
 
 function subscribe(onChange: () => void) {

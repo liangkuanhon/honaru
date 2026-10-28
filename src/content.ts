@@ -6,8 +6,8 @@ import type { IconName } from "./components/Icon"
 
 export const site = {
   name: "Honaru",
-  slogan: "Made for your people.",
-  belief: "Your people aren't a group chat. Stop treating them like one.",
+  slogan: "People, not tabs.",
+  belief: "Six apps for one relationship is five too many.",
   launch: "Launching first in Singapore.",
   email: "hello@honaru.com",
   social: [
@@ -30,8 +30,8 @@ export function isPlaceholder(value: string): boolean {
 
 /** The home page's human moment: two or three short lines, no feature list. */
 export const problem = [
-  "Her birthday's in two weeks. The perfect gift idea? Buried under 200 messages about dinner.",
-  "Thursday's school pickup? Lost somewhere between photos of the dog.",
+  "One app to message. One for photos. One for the calendar. One for the bill. One for where they are. One for the little things you want them to see.",
+  "Somewhere in the switching, the people you love turn into tabs.",
 ]
 
 /** A Room's fixed key: it picks the Room's colours (`data-room` in styles.css), so labels can change freely. */
@@ -104,29 +104,29 @@ export const reviews = [
 export const mission = {
   label: "Our mission",
   title: "We bring the people you love closer.",
-  lead: "Less time coordinating. More time together.",
+  lead: "Open less and love more.",
   heroImage: {
     src: "/images/mission-hero.png",
     label: "[Photo, 16:9: a phone face-down on a table between two cups or two sets of hands, no faces]",
   },
   story: {
     lines: [
-      "Close your eyes and picture your people. Your partner. Your oldest friend. The family chat that never stops buzzing. Each one feels different, doesn't it?",
+      "Picture your people. Your partner. The family who raised you. The friends who'd show up. The ones you'd get lost with on a trip. Each of them is close in a different way.",
     ],
   },
   reason: {
-    quote: "So why does every chat with them look exactly the same?",
+    quote: "So why are they spread across six apps?",
     lines: [
-      "Honaru throws out the one-size-fits-all inbox. Step into a room and it changes with you: its colours, its tools, its whole energy, shaped by the people waiting inside.",
+      "Messages here, photos there, the calendar, the bill, where everyone is. Honaru brings it home to one place, with a room for each of your people, shaped by the people inside it.",
     ],
   },
   why: {
     title: "Why we exist",
     // One flow: how people keep close, why existing apps lose it, why we built Honaru.
     lines: [
-      "Everyone loves in their own way. Some call. Some send memes. Some just show up. All of it counts.",
-      "But somewhere in the noise, it started slipping. The plan in one thread, the photos in another, her birthday idea drowned under 200 messages and a grocery list. Apps built for everyone end up fitting no one.",
-      "So we built Honaru. A room for each of your people, where every way you show up finally has somewhere to land.",
+      "Everyone loves in their own way. Some call. Some send photos. Some just show up. All of it counts.",
+      "But closeness rarely ends all at once. It slips through the gaps between apps: the plan in one, the photos in another, the birthday idea buried under a week of messages. Somewhere in the switching, your people turn into tabs.",
+      "So we built Honaru. One home for everything you share, so you open fewer apps and spend the time on the people instead.",
     ],
     image: {
       src: "/images/mission-why.png",
@@ -137,7 +137,7 @@ export const mission = {
     title: "What we'll always stand for",
     items: [
       {
-        title: "Made for your people",
+        title: "People, not tabs",
         text: "One room per relationship, built around the people in it. Not a generic chat with extras bolted on.",
         icon: "circles",
       },
@@ -169,7 +169,7 @@ export const mission = {
 export const pledge = {
   label: "Giving back",
   title: "Some of us are building our lives far from the people we love.",
-  lead: "Honaru exists to keep people close. So part of what it earns goes to helping someone get home, or feel a little less far from it.",
+  lead: "Honaru exists so the people you love feel close. So part of what it earns goes to helping someone get home, or feel a little less far from it.",
   why: {
     title: "Why this matters to us",
     text: "Leaving home isn't hard because of the packing. It's hard the day you realise your ordinary life no longer overlaps with the people you love. Many of us at Honaru know that ache. Counting time zones on a lock screen. Watching the holidays happen without you, thousands of miles away. Choosing between a ticket home and next month's bills.",
@@ -179,11 +179,11 @@ export const pledge = {
   },
   promise: {
     title: "What we promise",
-    text: "So we pledge a portion of what we earn to closing that gap. Sometimes that's a ticket home. Sometimes it's a seat pulled up at the table, so no one has to face a new city alone.",
+    text: "Each year, part of what Honaru earns goes to a few people far from home. Sometimes that's a ticket back. Sometimes it's a seat pulled up at the table, so no one has to face a new city alone. [Draft: how we give back is still being confirmed.]",
   },
   closing: {
     title: "Know someone far from home?",
-    lead: "Someone who needs a ticket home. Or maybe it's you, missing yours. Either way, we want to hear from you.",
+    lead: "Someone who'd give a lot for a ticket home. Or maybe it's you, missing yours. Either way, we'd love to hear from you.",
   },
 }
 
@@ -220,6 +220,14 @@ export const careers = {
     title: "Sound like you?",
     lead: "Tell us who you are and what you'd love to build.",
   },
+}
+
+/** /join/<token>: where an invite link lands when the app doesn't open it. */
+export const join = {
+  title: "You're invited.",
+  lead: "Someone saved you a place in their Room. Open the invite in Honaru to join.",
+  open: "Open in Honaru",
+  noApp: "No Honaru yet? Get the app, then tap the invite link again. Invites last 24 hours.",
 }
 
 /** /contact: no form, one inbox per kind of message. */

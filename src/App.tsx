@@ -4,17 +4,18 @@ import { Careers } from './pages/Careers'
 import { Contact } from './pages/Contact'
 import { Cookies } from './pages/Cookies'
 import { Home } from './pages/Home'
+import { Join } from './pages/Join'
 import { Mission } from './pages/Mission'
 import { NotFound } from './pages/NotFound'
 import { Pledge } from './pages/Pledge'
 import { Privacy } from './pages/Privacy'
 import { Rooms } from './pages/Rooms'
 import { Terms } from './pages/Terms'
-import { usePathname, type Path } from './router'
+import { joinToken, usePathname, type Path } from './router'
 
 // Record<Path, …> makes the compiler insist every route in router.ts has a page.
 const routes: Record<Path, { title: string; page: ComponentType }> = {
-  '/': { title: 'Honaru · Made for your people.', page: Home },
+  '/': { title: 'Honaru · People, not tabs.', page: Home },
   '/mission': { title: 'Mission · Honaru', page: Mission },
   '/pledge': { title: 'Pledge · Honaru', page: Pledge },
   '/careers': { title: 'Careers · Honaru', page: Careers },
@@ -28,15 +29,18 @@ const routes: Record<Path, { title: string; page: ComponentType }> = {
 /** Picks the page for the current path and keeps the tab title in step. */
 export function App() {
   const pathname = usePathname()
+  const token = joinToken(pathname)
   const route = routes[pathname as Path] ?? { title: 'Not found · Honaru', page: NotFound }
+  // /join/<token> is the one route with a parameter, so it sits outside the table.
+  const title = token ? 'Join · Honaru' : route.title
 
   useEffect(() => {
-    document.title = route.title
-  }, [route.title])
+    document.title = title
+  }, [title])
 
   return (
     <Layout>
-      <route.page />
+      {token ? <Join token={token} /> : <route.page />}
     </Layout>
   )
 }

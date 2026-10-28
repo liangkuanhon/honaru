@@ -1,7 +1,7 @@
 # Honaru web
 
 The landing page for Honaru, a messaging app where every relationship gets its own private
-Space. *Made for your people.*
+Space. *People, not tabs.*
 
 The Spaces live in the mobile app. This site answers one question: why does Honaru exist,
 and why trust the person behind it? It collects the waitlist and links to the app stores. Design: [`DESIGN.md`](DESIGN.md).

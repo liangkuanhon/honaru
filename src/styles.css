@@ -563,7 +563,7 @@ main > .screen:first-child > .screen__inner,
 
 /* Two beats with a pause; opacity only (DESIGN.md 4.2). */
 .hero__tagline span {
-  display: block;
+  display: inline-block;
   animation: fade-in 500ms ease-out both;
 }
 

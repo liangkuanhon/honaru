@@ -34,6 +34,7 @@ Owner direction (2026-10-17), which overrides DESIGN.md where they differ:
 
 ```text
 index.html              the only HTML file
+STORY.md                background for copy: what Honaru is, who it's for, the voice
 public/                 _headers, favicon, Newsreader + DM Sans (woff2), og.png
 src/
 ├── main.tsx            mounts <App />
@@ -112,6 +113,9 @@ yarn lint && yarn build    # both must pass before reporting work done
 
 ## Content rules
 
+- Read `STORY.md` before writing any body text (leads, paragraphs, statements). It is
+  background on what Honaru is, who it's for and how the copy should feel; it does not
+  decide pages, sections or features (this file does).
 - Copy lives in `src/content.ts`. Voice: punchy, modern and unconventional (DESIGN.md §7
   has the reference line); British spelling, no exclamation marks, never "revolutionise",
   "seamless" or "all-in-one".

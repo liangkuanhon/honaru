@@ -31,12 +31,16 @@ function RoomsCarousel() {
 
 /** Why Honaru exists, in three screens: belief, a human moment, the Rooms. */
 export function Home() {
+  // The slogan's last two words ("not tabs.") are the second beat, in the accent.
+  const words = site.slogan.split(' ')
+  const accent = words.splice(-2).join(' ')
+
   return (
     <>
       <div className="hero hero--centred container">
         <Mark line className="hero__arch" />
         <h1 className="hero__tagline">
-          <span>Made for</span> <span className="hero__accent">your people.</span>
+          <span>{words.join(' ')}</span> <span className="hero__accent">{accent}</span>
         </h1>
         <p className="lead">{site.belief}</p>
       </div>

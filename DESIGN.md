@@ -14,7 +14,7 @@ direction of 2026-10-17; colours replaced 2026-10-25.
   relationship in particular and the small things get lost.
 - **Product:** a messaging app where each close relationship gets its own private Room:
   Couple, Family & Friends, and Travel.
-- **Slogan:** "Made for your people."
+- **Slogan:** "People, not tabs."
 - **Promises:** one Room for each kind of relationship; conversations and data are never
   sold; location sharing is opt-in with no background tracking. These are
   the owner's commitments; never soften or add to them.
