@@ -19,3 +19,8 @@
 
 /fonts/*
   Cache-Control: public, max-age=2592000
+
+# Android App Links (later also apple-app-site-association): served as JSON, never redirected.
+/.well-known/*
+  Content-Type: application/json
+  Cache-Control: public, max-age=3600

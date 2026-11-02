@@ -33,6 +33,7 @@ Optional local settings: `cp .env.example .env` (never commit it).
 | `/careers`     | Who we hope to meet, how we work, open roles                |
 | `/contact`     | Email and contact form                                      |
 | `/privacy`     | Privacy note                                                |
+| `/join/<token>` | Invite link landing: opens the app, or shows the store badges |
 
 ## Editing content
 
@@ -45,3 +46,6 @@ and shows on the page until it is replaced.
 Build command `yarn build`, output `dist`. Build variables: `VITE_SITE_URL` (required) and
 optionally `VITE_NEWSLETTER_ENDPOINT` / `VITE_CONTACT_ENDPOINT`. With no `404.html`, Pages
 serves `index.html` for every path, and the app's router shows the right page or "not found".
+`public/.well-known/assetlinks.json` must carry the SHA-256 of the Android signing certificate (from
+`eas credentials -p android`) and be served as JSON on both honaru.com and www.honaru.com without a redirect,
+or Android App Links won't verify.
