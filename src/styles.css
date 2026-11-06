@@ -1,4 +1,4 @@
-/* Ground and ink, plus one accent per Room (DESIGN.md). No dark theme. Components use tokens. */
+/* Brand Kit v5: ground and ink, Honaru Purple, one colour per Room (DESIGN.md). No dark theme. */
 
 /* Self-hosted (SIL OFL, /fonts/*-OFL.txt) so every device renders the same faces.
    font-display: block waits for them instead of flashing a system font. */
@@ -22,60 +22,69 @@
   /* Palette. The only hex values in the codebase, apart from favicon.svg and theme-color. */
   --ground: #faf8f5;
   --ink: #17151c; /* 17:1 with ground either way */
-  /* Room accents. Strong is 2.0-2.6:1 on ground, so never text or a focus ring there;
-     accent text is 7.6:1+ on its tint and 9:1+ on ground. */
-  --rose: #c98f83;
-  --rose-tint: #f1e0da;
-  --rose-text: #5a3d37;
-  --sage: #93a88d;
-  --sage-tint: #e3eae0;
-  --sage-text: #34432f;
-  --lavender: #b9a9d6;
-  --lavender-tint: #e8e1f2;
-  --lavender-text: #3f3556;
+  /* Honaru Purple: 8.7:1 with ground, but only 2.0:1 on ink, where Purple Light (6.9:1) takes over. */
+  --purple: #4a3a8c;
+  --purple-light: #a794e8;
+  --purple-glow: #cbbff2; /* the logo's right arch and text selection on ground; never text */
+  /* Room colours. The accent is a fill or frame only, never text; text is 7.5:1+ on its tint. */
+  --rose: #f0a7b8;
+  --rose-tint: #fae3e7;
+  --rose-text: #633d46;
+  --marigold: #e6ba65;
+  --marigold-tint: #f5e8d0;
+  --marigold-text: #5c4414;
+  --sage: #a4cc9c;
+  --sage-tint: #e2eedf;
+  --sage-text: #3a4e35;
 
-  /* The active Room. The site has none, so Lavender stands in until [data-room] says otherwise. */
-  --room-accent: var(--lavender);
-  --room-tint: var(--lavender-tint);
-  --room-accent-text: var(--lavender-text);
+  /* The active Room. Rose stands in until [data-room] says otherwise: the Rose logo is Honaru's. */
+  --room-accent: var(--rose);
+  --room-tint: var(--rose-tint);
+  --room-accent-text: var(--rose-text);
 
   /* Roles. A [data-tone='ink'] section swaps them, so components adapt by themselves. */
   --bg: var(--ground);
   --fg: var(--ink);
-  --accent: var(--ink); /* logo, buttons, links, focus */
+  --accent: var(--purple); /* buttons, links, focus */
   --on-accent: var(--ground);
-  --selection: var(--room-tint); /* ink on it is 14:1 */
+  --selection: var(--purple-glow); /* ink on it is 10.6:1 */
+  --line: color-mix(in srgb, var(--fg) 12%, transparent); /* dividers only, never a field's edge */
+  /* The logo's arches; the overlap is always --room-accent. */
+  --mark-left: var(--purple);
+  --mark-right: var(--purple-glow);
 
   --header-height: 72px; /* the bar from 640px up; phones stack it taller (below) */
 
   --font-heading: 'Newsreader', serif;
   --font-body: 'DM Sans', sans-serif;
-  --radius: 4px;
+  --radius: 12px;
   --gutter: 16px;
   --content: 1120px;
   --text: 640px;
   --hero-top: clamp(128px, 34svh, 360px); /* where every page's first words start */
 }
 
-/* Ground on ink is 17:1. */
+/* Ground on ink is 17:1, Purple Light on ink 6.9:1. */
 [data-tone='ink'] {
   --bg: var(--ink);
   --fg: var(--ground);
-  --accent: var(--ground);
+  --accent: var(--purple-light);
   --on-accent: var(--ink);
-  --selection: var(--room-accent-text); /* ground on it is 10:1+ */
+  --selection: var(--purple); /* ground on it is 8.7:1 */
+  --mark-left: var(--ground);
+  --mark-right: var(--purple-light);
 
   background: var(--bg);
   color: var(--fg);
 }
 
-/* A Room's tint as the whole screen (Rooms page): ink on it is 14:1+, its accent text 7.6:1+. */
+/* A Room's tint as the whole screen (Rooms page): ink on it is 14.8:1+, its accent text 7.5:1+. */
 [data-tone='room'] {
   --bg: var(--room-tint);
   --fg: var(--ink);
   --accent: var(--room-accent-text);
   --on-accent: var(--ground);
-  --selection: var(--room-accent); /* ink on it is 6.7:1+ */
+  --selection: var(--room-accent); /* ink on it is 9.4:1+ */
 
   background: var(--bg);
   color: var(--fg);
@@ -157,8 +166,7 @@ main:focus {
 h1,
 h2,
 h3,
-.headline,
-.brand {
+.headline {
   font-family: var(--font-heading);
   font-weight: 500;
   text-wrap: balance;
@@ -236,8 +244,10 @@ h3,
 .site-header[data-over-image] {
   --bg: var(--ink);
   --fg: var(--ground);
-  --accent: var(--ground);
+  --accent: var(--purple-light);
   --on-accent: var(--ink);
+  --mark-left: var(--ground);
+  --mark-right: var(--purple-light);
 
   background: transparent;
   color: var(--fg);
@@ -246,10 +256,11 @@ h3,
 /* The header takes the tone of the screen beneath it (Layout.tsx) and eases between them. */
 .site-header,
 .site-header a,
-.site-header .mark {
+.site-header .mark path {
   transition:
     background-color 250ms ease-out,
-    color 250ms ease-out;
+    color 250ms ease-out,
+    fill 250ms ease-out;
 }
 
 .site-header__bar {
@@ -296,22 +307,49 @@ h3,
   }
 }
 
+/* The wordmark set in DM Sans SemiBold, tracked -1.2%, until the outlined logo file exists. */
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   min-block-size: 44px;
   color: var(--fg);
-  font-size: 1.375rem;
+  font-family: var(--font-body);
+  font-size: 1.625rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.012em;
 }
 
 .brand:hover {
   text-decoration: none;
 }
 
+.brand .mark {
+  block-size: 28px;
+}
+
 .mark {
   flex-shrink: 0;
-  color: var(--accent);
+  block-size: 24px; /* the kit's smallest brandmark */
+  inline-size: auto;
+}
+
+.mark__left {
+  fill: var(--mark-left);
+}
+
+.mark__right {
+  fill: var(--mark-right);
+}
+
+.mark__overlap {
+  fill: var(--room-accent);
+}
+
+/* One colour: the whole mark in the text colour, as on a placeholder. */
+.mark--mono path {
+  fill: currentColor;
 }
 
 .nav-links {
@@ -495,7 +533,7 @@ h3,
   display: grid;
   gap: 4px;
   padding-block: 16px;
-  border-block-start: 1px solid var(--fg);
+  border-block-start: 1px solid var(--line);
 }
 
 .terms dt {
@@ -550,9 +588,8 @@ main > .screen:first-child > .screen__inner,
 }
 
 .hero__arch {
-  inline-size: clamp(96px, 16vw, 152px);
-  block-size: auto;
-  color: var(--accent);
+  inline-size: auto;
+  block-size: clamp(88px, 14vw, 136px);
 }
 
 .hero__tagline {
@@ -792,13 +829,6 @@ main > .screen:first-child > .screen__inner,
   margin-block-start: 32px; /* on top of the screen's 32px gap */
 }
 
-/* The purple of selected text on ink; ground on it is 10:1+. */
-.rooms-cta .button:hover {
-  border-color: var(--room-accent-text);
-  background: var(--room-accent-text);
-  color: var(--ground);
-}
-
 /* Each Room's own mood, keyed by `RoomId` (content.ts): its tint as a wash, framed in its
    accent, drawn in its accent text. */
 [data-room='couple'] {
@@ -807,13 +837,13 @@ main > .screen:first-child > .screen__inner,
   --room-accent-text: var(--rose-text);
 }
 
-[data-room='family-friends'] {
-  --room-accent: var(--lavender);
-  --room-tint: var(--lavender-tint);
-  --room-accent-text: var(--lavender-text);
+[data-room='family'] {
+  --room-accent: var(--marigold);
+  --room-tint: var(--marigold-tint);
+  --room-accent-text: var(--marigold-text);
 }
 
-[data-room='travel'] {
+[data-room='friends-travel'] {
   --room-accent: var(--sage);
   --room-tint: var(--sage-tint);
   --room-accent-text: var(--sage-text);
@@ -875,9 +905,8 @@ main > .screen:first-child > .screen__inner,
 }
 
 .illustration__mark {
-  inline-size: 72px;
-  block-size: auto;
-  color: var(--accent);
+  block-size: 72px;
+  color: var(--fg);
 }
 
 .get-app {

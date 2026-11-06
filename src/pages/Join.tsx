@@ -5,7 +5,7 @@ import { join } from '../content'
 export function Join({ token }: { token: string }) {
   return (
     <div className="hero container">
-      <Mark line className="hero__arch" />
+      <Mark className="hero__arch" />
       <h1 className="hero__tagline">{join.title}</h1>
       <p className="lead">{join.lead}</p>
       <a className="button button--primary" href={`honaru://join/${token}`}>

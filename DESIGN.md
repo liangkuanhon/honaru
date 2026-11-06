@@ -2,7 +2,7 @@
 
 Brand, audience and copy rules for the Honaru website. `CLAUDE.md` covers code structure
 and workflow; where the two overlap they agree. Updated 2026-10-18 to match the owner's
-direction of 2026-10-17; colours replaced 2026-10-25.
+direction of 2026-10-17; colours and logo from Brand Kit v5 (2026-11-06).
 
 ---
 
@@ -13,7 +13,7 @@ direction of 2026-10-17; colours replaced 2026-10-25.
   close in their own way, but messaging apps are built for everyone, so they fit no
   relationship in particular and the small things get lost.
 - **Product:** a messaging app where each close relationship gets its own private Room:
-  Couple, Family & Friends, and Travel.
+  Couple, Family, and Friends & Travel.
 - **Slogan:** "People, not tabs."
 - **Promises:** one Room for each kind of relationship; conversations and data are never
   sold; location sharing is opt-in with no background tracking. These are
@@ -27,7 +27,7 @@ direction of 2026-10-17; colours replaced 2026-10-25.
 - **Users:** adults aged 18-35 who keep several close
   circles going at once (a partner, family, friends, trips) and feel them getting lost in
   one chat app. At the heart of it: people living far from the people they love.
-- **Their people:** parents and grandparents brought in through the Family & Friends Room, so
+- **Their people:** parents and grandparents brought in through the Family Room, so
   anything they might see stays plain and easy.
 - **Visitors who are not users:** partners, press, creators, organisations and people who
   want to work here. They reach us through `/contact` and `/careers`.
@@ -70,68 +70,87 @@ Minimal and inviting, in the spirit of locket.com. Calm, like a letter from a fr
 
 ### Colour
 
-Two core colours, and one accent family per Room (2026-10-25). The palette is defined
-once, in `:root` in `src/styles.css`; nothing else holds a hex value except
-`public/favicon.svg` and `theme-color` in `index.html`, which can't read CSS.
+From Brand Kit v5 (2026-11-06): ground and ink, Honaru Purple as the one brand accent,
+and one colour family per Room. The palette is defined once, in `:root` in
+`src/styles.css`; nothing else holds a hex value except `public/favicon.svg` and
+`theme-color` in `index.html`, which can't read CSS.
 
 **Core**
 
 | Token | Hex | Use |
 | --- | --- | --- |
 | `--ground` | `#FAF8F5` | Background; text on ink |
-| `--ink` | `#17151C` | Text; logo, buttons, links and focus rings; the alternate screens |
+| `--ink` | `#17151C` | Text and headlines; the alternate screens |
+| `--purple` | `#4A3A8C` | Honaru Purple: buttons, links, focus, the hero's accent words; the logo's left arch |
+| `--purple-light` | `#A794E8` | Purple on ink (Purple itself is 2.0:1 there); the logo's right arch on ink |
+| `--purple-glow` | `#CBBFF2` | The logo's right arch on ground; text selection on ground; never text |
 
-Primary buttons are ink with ground text. Ink screens swap the two.
+Primary buttons are Purple with ground text on ground screens, and Purple Light with ink
+text on ink screens. Use Purple sparingly, for what people should notice, and never to
+mean "premium".
 
-**Room accents**
+**Room colours**
 
-| Room (`RoomId`) | Family | `--room-accent` (strong) | `--room-tint` (soft) | `--room-accent-text` |
+| Room (`RoomId`) | Family | `--room-accent` | `--room-tint` | `--room-accent-text` |
 | --- | --- | --- | --- | --- |
-| Couple (`couple`) | Rose | `#C98F83` | `#F1E0DA` | `#5A3D37` |
-| Travel (`travel`) | Sage | `#93A88D` | `#E3EAE0` | `#34432F` |
-| Family & Friends (`family-friends`) | Lavender | `#B9A9D6` | `#E8E1F2` | `#3F3556` |
+| Couple (`couple`) | Rose | `#F0A7B8` | `#FAE3E7` | `#633D46` |
+| Family (`family`) | Marigold | `#E6BA65` | `#F5E8D0` | `#5C4414` |
+| Friends & Travel (`friends-travel`) | Sage | `#A4CC9C` | `#E2EEDF` | `#3A4E35` |
 
-- Raw tokens are `--rose`, `--rose-tint`, `--rose-text` (and `sage-`, `lavender-`).
+- Raw tokens are `--rose`, `--rose-tint`, `--rose-text` (and `marigold-`, `sage-`).
   Components read only the semantic ones: `--bg`, `--fg`, `--accent`, `--on-accent`,
-  `--selection` and the three `--room-*`.
-- An element with `data-room={room.id}` (`couple`, `family-friends`, `travel`) sets the
-  three `--room-*` tokens, and everything inside takes that Room's mood: the tint as a wash, the strong
-  accent as a frame, the accent text for marks and words. Outside any Room they default
-  to Lavender. On the site this is the Rooms carousel on the home page.
-- Strong accents are fills and frames only. Tints are Room washes and text selection,
-  never general panels. No greys, status colours, gradients, shadows, blur or dark theme.
+  `--selection`, `--line`, `--mark-left`, `--mark-right` and the three `--room-*`.
+- An element with `data-room={room.id}` sets the three `--room-*` tokens, and everything
+  inside takes that Room's mood: the tint as a wash, the accent as a frame and the
+  logo's overlap, the accent text for marks and words. Outside any Room they default to
+  Rose, because the Rose logo is the Honaru logo.
+- Accents are fills and frames only. Tints are Room washes (and selection inside a Room), never
+  general panels. One Room's colours at a time.
+- `--line` (ink or ground at 12%) is for dividers only; field edges stay full strength.
+- No other greys, no status colours, shadows, blur or dark theme. The kit allows one
+  gradient (Purple to Purple Light); the site doesn't use it.
 - The sticky header takes the tone of the screen under it.
 
-**Contrast** (checked 2026-10-25)
+**Contrast** (checked 2026-11-06)
 
 | Pair | Ratio |
 | --- | --- |
 | Ink / ground | 17:1 |
-| Accent text on its tint | Rose 7.6, Sage 8.6, Lavender 8.9 |
-| Accent text on ground | 9.2-10.7 |
-| Ink on a tint | 14:1+ |
-| Strong accent on ground | 2.0-2.6, so never text, icons that carry meaning or focus rings |
-| Strong accent on ink | 6.7-8.4 |
+| Purple on ground | 8.7:1 |
+| Purple Light on ink | 6.9:1 |
+| Purple on ink | 2.0, so never there |
+| Accent text on its tint | Rose 7.5, Marigold 7.6, Sage 7.6 |
+| Accent text on ground | 8.5-8.7 |
+| Ink on a tint | 14.8:1+ |
+| Room accent on ground | 1.7-1.8, so never text, icons that carry meaning or focus rings |
+| Room accent on ink | 9.4-10.1 |
 
   Errors are shown without colour: a 2px outline on the field and the message in text.
 
 ### Type
 
-- **Newsreader** (weight 500, optical sizing) for h1-h3 and the wordmark.
-- **DM Sans** (300-600) for everything else; 600 where something should read as bold.
+- **Newsreader** (weight 500, optical sizing) for h1-h3. Kept by the owner's choice; the
+  kit's DM Sans-only rule applies to the app and social.
+- **DM Sans** (300-600) for everything else, and the wordmark (600, tracked -1.2%);
+  600 where something should read as bold.
 - Both self-hosted with `font-display: block` and no system-font fallback, so every device
   shows the same faces.
 - Hero taglines are large but not shouting: roughly 36px on phones to 60px on wide screens.
 
 ### Shape and space
 
-- Radius 4px. 1px borders. Separate things with space, not boxes.
+- Radius 12px on cards, fields and frames; fully round for buttons and pills. 1px borders. Separate things with space, not boxes.
 - Content about 1120px wide, text columns about 640px. Gutters 16px, 24px from 768px.
 - Touch targets at least 44px.
 
 ### Logo, icons, imagery
 
-- Logo: two people forming an arch, in ink (ground on ink screens), beside the Newsreader wordmark.
+- Logo (Brand Kit v5): two arches, Purple on the left and Purple Glow on the right, with the
+  Room accent where they overlap; on ink, ground and Purple Light. The Rose logo is the
+  Honaru logo; a Room's logo appears only inside that Room (the `/rooms` screens). Never
+  stretch, tilt, recolour or swap the arches. The mark is at least 24px tall.
+- Wordmark: lowercase "honaru", typeset in DM Sans 600 until the outlined logo file
+  exists; then use the file, never retype it.
 - Icons: line only on a 24px grid. No filled icons, no emoji.
 - No stock photos. Until real art exists, `Illustration` holds the space at its final
   aspect ratio (4:5, 3:2, 16:9, 21:9), labelled with what the image should show.

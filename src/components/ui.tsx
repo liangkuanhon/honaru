@@ -103,44 +103,33 @@ export function CardGrid({ row = false, children }: { row?: boolean; children: R
   return <div className={row ? 'card-grid card-grid--row' : 'card-grid'}>{children}</div>
 }
 
-const MARK_HEADS = [
-  { cx: 16.5, cy: 12, r: 5.5 },
-  { cx: 31.5, cy: 12, r: 5.5 },
-]
-const MARK_BODIES = [
-  'M10.5 40.5C10.5 30.5 13.5 24 19 24C21 24 22.6 24.6 24 25.6',
-  'M37.5 40.5C37.5 30.5 34.5 24 29 24C27 24 25.4 24.6 24 25.6',
-]
+// The Honaru mark (Brand Kit v5): two arches, and the Room's accent where they overlap.
+// Coordinates from the kit's logo file; the overlap is the lens where the arches meet.
+const ARCH_LEFT = 'M272.03 849.96V409.05a178.74 178.74 0 0 1 357.48 0v440.91Z'
+const ARCH_RIGHT = 'M450.79 849.96V504.38a178.74 178.74 0 0 1 357.48 0v345.58Z'
+const ARCH_OVERLAP = 'M450.79 849.96V504.38A178.74 178.74 0 0 1 609.45 326.77 178.74 178.74 0 0 1 629.51 409.05v440.91Z'
 
-/** The Honaru mark: two people forming an arch. `line` draws it as thin line art. */
-export function Mark({ size, line = false, className }: { size?: number; line?: boolean; className?: string }) {
+/**
+ * The arch mark. Colours come from the tone and Room it sits in (`--mark-left`,
+ * `--mark-right`, `--room-accent`); `mono` draws it in the text colour only.
+ */
+export function Mark({ mono = false, className }: { mono?: boolean; className?: string }) {
+  const classes = ['mark', mono && 'mark--mono', className].filter(Boolean).join(' ')
   return (
-    <svg className={className ?? 'mark'} width={size} height={size} viewBox="4 4 40 40" aria-hidden="true" focusable="false">
-      <g
-        fill={line ? 'none' : 'currentColor'}
-        stroke={line ? 'currentColor' : 'none'}
-        strokeWidth={1.5}
-        vectorEffect="non-scaling-stroke"
-      >
-        {MARK_HEADS.map((head) => (
-          <circle key={head.cx} {...head} vectorEffect="non-scaling-stroke" />
-        ))}
-      </g>
-      <g fill="none" stroke="currentColor" strokeWidth={line ? 1.5 : 9} strokeLinecap="round">
-        {MARK_BODIES.map((d) => (
-          <path key={d} d={d} vectorEffect={line ? 'non-scaling-stroke' : undefined} />
-        ))}
-      </g>
+    <svg className={classes} viewBox="272 230 537 620" aria-hidden="true" focusable="false">
+      <path className="mark__left" d={ARCH_LEFT} />
+      <path className="mark__right" d={ARCH_RIGHT} />
+      <path className="mark__overlap" d={ARCH_OVERLAP} />
     </svg>
   )
 }
 
-/** Mark plus wordmark, linking home. */
+/** Mark plus wordmark, linking home. The wordmark is typeset until the outlined logo file exists. */
 export function Brand() {
   return (
     <Link to="/" className="brand" aria-label="Honaru home">
-      <Mark size={28} />
-      <span aria-hidden="true">Honaru</span>
+      <Mark />
+      <span aria-hidden="true">honaru</span>
     </Link>
   )
 }
@@ -208,7 +197,7 @@ export function Illustration({ label, src, icon, ratio = '4:5', bleed = false }:
   }
   return (
     <div className={classes.filter(Boolean).join(' ')}>
-      {icon ? <Icon name={icon} /> : <Mark line className="illustration__mark" />}
+      {icon ? <Icon name={icon} /> : <Mark mono className="illustration__mark" />}
       {label && <span className="caption placeholder">{label}</span>}
     </div>
   )

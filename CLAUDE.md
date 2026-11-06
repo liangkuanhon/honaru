@@ -5,7 +5,7 @@
 
 ## What this is
 
-Only the Honaru landing page. The Rooms (Couple, Family & Friends, Travel) live in the
+Only the Honaru landing page. The Rooms (Couple, Family, Friends & Travel) live in the
 mobile app; never build app features, sign-in or per-Room tours here.
 
 Owner direction (2026-10-17), which overrides DESIGN.md where they differ:
@@ -18,11 +18,13 @@ Owner direction (2026-10-17), which overrides DESIGN.md where they differ:
 - Header: Mission and Pledge on the left, brand centred, Download and Careers on the
   right (Download is a hover card, not a page). Footer (ink): brand, X / Instagram /
   TikTok icons and copyright on the left; Index and Legal links on the right.
-- **Ground and ink, plus one accent per Room (2026-10-25).** Ground #FAF8F5 background,
-  ink #17151C text, logo, buttons and links. Couple is Rose, Travel Sage, Family &
-  Friends Lavender, each a strong accent, a soft tint and an accent-text shade (DESIGN.md).
-  No greys or status colours; no dark theme (`prefers-color-scheme: dark`).
-- **Newsreader for headings (h1-h3, wordmark), DM Sans for everything else.** Both
+- **Brand Kit v5 (2026-11-06).** Ground #FAF8F5 background, ink #17151C text, Honaru
+  Purple #4A3A8C for buttons, links and focus (Purple Light on ink). Couple is Rose,
+  Family Marigold, Friends & Travel Sage, each an accent, a tint and a text shade
+  (DESIGN.md). The logo is two arches with the Room accent in the overlap. No greys
+  beyond the 12% ink line, no status colours; no dark theme (`prefers-color-scheme: dark`).
+- **Newsreader for headings (h1-h3), DM Sans for everything else**, including the
+  wordmark (kept over the kit's DM Sans-only rule, by the owner's choice). Both
   self-hosted with `font-display: block` and no system-font stack, so every device renders
   the same faces.
 - **Real routes** (`/about`, `/journal`, …) defined in TypeScript, not `#section` links.
@@ -79,23 +81,25 @@ yarn lint && yarn build    # both must pass before reporting work done
 
 ## Design rules
 
-- Colours: the palette lives once in `:root` (`--ground`, `--ink`, `--rose*`, `--sage*`,
-  `--lavender*`); do not add to it. Components use the role tokens `--bg`, `--fg`,
-  `--accent`, `--on-accent`, `--selection` and `--room-accent`, `--room-tint`,
-  `--room-accent-text`, never raw colours or hex, so they work on both tones and in every
-  Room. `data-room={room.id}` sets the Room tokens, keyed by `RoomId` in `content.ts`
-  (default Lavender); never key colours off a label. No gradients, shadows or blur; tints
+- Colours: the palette lives once in `:root` (`--ground`, `--ink`, `--purple*`, `--rose*`,
+  `--marigold*`, `--sage*`); do not add to it. Components use the role tokens `--bg`,
+  `--fg`, `--accent`, `--on-accent`, `--selection`, `--line`, `--mark-left`,
+  `--mark-right` and `--room-accent`, `--room-tint`, `--room-accent-text`, never raw
+  colours or hex, so they work on both tones and in every Room. `data-room={room.id}` sets the Room tokens, keyed by `RoomId` in `content.ts`
+  (default Rose, the Honaru logo); never key colours off a label. No gradients, shadows or blur; tints
   only as a Room wash, never as general
-  panels; separate things with space, not boxes. Radius 4px; 1px borders.
+  panels; separate things with space, not boxes. Radius 12px (buttons fully round); 1px
+  borders.
 - Tones: home screens alternate ground and ink (`<Screen tone="ink">` sets
   `data-tone`, which swaps the role tokens to ground on ink). The sticky header takes
   the tone of the section beneath it, and turns transparent while a full-bleed image
   covers it (`useWhatIsUnder` in `Layout.tsx`). Inner pages are ground.
   `<Screen room={id}>` washes a screen in that Room's tint (`data-tone="room"`); the
   header copies its `data-room` too. Only `/rooms` uses it.
-- Contrast (checked 2026-10-25): ink and ground are 17:1; each accent-text shade is 7.6:1+
-  on its tint and 9:1+ on ground. Strong accents are only 2.0-2.6:1 on ground: fills and
-  frames only, never text or focus rings (use the accent-text shade). Errors are shown without colour: a
+- Contrast (checked 2026-11-06): ink and ground are 17:1; Purple on ground 8.7:1, Purple
+  Light on ink 6.9:1 (Purple on ink is 2.0:1, never). Each accent-text shade is 7.5:1+ on
+  its tint and 8.5:1+ on ground. Room accents are only 1.7-1.8:1 on ground: fills, frames
+  and the logo's overlap only, never text or focus rings (use the accent-text shade). Errors are shown without colour: a
   2px outline on the field and the message in text.
 - Fonts via `--font-heading` and `--font-body` only. DM Sans runs 300-600 (use 600
   where DESIGN.md says Bold). Newsreader runs 200-800 with an optical-size axis;
@@ -106,6 +110,9 @@ yarn lint && yarn build    # both must pass before reporting work done
 - Imagery: no stock photos. `Illustration` marks where an image goes, at its final
   aspect ratio (4:5, 3:2, 16:9, 21:9) and labelled with what the asset should show, so
   the real one swaps in without moving the layout. Room accents appear only inside a Room.
+- Logo: `Mark` draws the kit's arches (fills from `--mark-left`, `--mark-right`,
+  `--room-accent`; `mono` for one colour); `Brand` adds the typeset wordmark until the
+  outlined logo file exists. Never recolour, stretch or swap the arches.
 - Accessibility: one `h1` per page (`Page` or the hero provides it), visible labels,
   errors linked with `aria-describedby`, outcomes in a `role="status"` region, 44px touch
   targets.
@@ -170,3 +177,4 @@ yarn lint && yarn build    # both must pass before reporting work done
 - [ ] Choose a form backend and set the endpoints.
 - [ ] Real reviews, social profile URLs (now google.com placeholders).
 - [ ] Founder's story and photo, pledge details, careers copy and legal text.
+- [ ] Outlined wordmark SVG from the brand kit (replaces the typeset one) and a new `og.png`.

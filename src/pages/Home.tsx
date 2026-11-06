@@ -38,7 +38,7 @@ export function Home() {
   return (
     <>
       <div className="hero hero--centred container">
-        <Mark line className="hero__arch" />
+        <Mark className="hero__arch" />
         <h1 className="hero__tagline">
           <span>{words.join(' ')}</span> <span className="hero__accent">{accent}</span>
         </h1>
@@ -59,7 +59,7 @@ export function Home() {
           <>
             <RoomsCarousel />
             <div className="container rooms-cta">
-              <ButtonLink to="/rooms">Step inside</ButtonLink>
+              <ButtonLink to="/rooms" variant="secondary">Step inside</ButtonLink>
             </div>
           </>
         }

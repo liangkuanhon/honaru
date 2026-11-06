@@ -35,7 +35,7 @@ export const problem = [
 ]
 
 /** A Room's fixed key: it picks the Room's colours (`data-room` in styles.css), so labels can change freely. */
-export type RoomId = "couple" | "family-friends" | "travel"
+export type RoomId = "couple" | "family" | "friends-travel"
 
 /**
  * The three Rooms. `label` and `feeling` are the home carousel's teaser; the rest is the
@@ -62,21 +62,21 @@ export const rooms: {
     text: "Your digital balcony. The world goes quiet out here and it's just the two of you. Share your location and it isn't surveillance; it's the small, warm relief of knowing they made it home. Count down on a shared calendar to the next time you hold hands. Keep a journal that belongs to no one else.",
   },
   {
-    id: "family-friends",
-    label: "Lavender Room",
-    feeling: "For Family & Lifelong Friends.",
-    icon: "group",
-    audience: "For Family & Lifelong Friends",
-    title: "The Lavender Room",
+    id: "family",
+    label: "Marigold Room",
+    feeling: "For Family.",
+    icon: "house",
+    audience: "For Family",
+    title: "The Marigold Room",
     mood: "Nostalgia, high-trust and safe.",
     text: "Your digital living room. Drop in with the small stuff: a photo, a hello across time zones, the milestone nobody wants to miss. No pressure to keep up. And year after year, it quietly gathers it all into your Memory Vault, a scrapbook that becomes your circle's heirloom.",
   },
   {
-    id: "travel",
+    id: "friends-travel",
     label: "Sage Room",
-    feeling: "For Travel & Shared Adventures.",
+    feeling: "For Friends & Travel.",
     icon: "plane",
-    audience: "For Travel & Shared Adventures",
+    audience: "For Friends & Travel",
     title: "The Sage Room",
     mood: "Alert, clear and forward-looking.",
     text: "Your basecamp. Open Honaru and the air turns crisp, the greens of an open trail. In an instant, everyone's on the same map. The itinerary stops being a spreadsheet and becomes a living timeline of the next great story you'll tell together.",
