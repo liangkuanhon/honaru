@@ -2,12 +2,12 @@ import { ButtonLink, Illustration, Mark, Screen } from '../components/ui'
 import { problem, rooms, site } from '../content'
 
 // The track slides left by one set, then restarts. Each slide is a quarter of the viewport
-// (styles.css), so one set of three fills three quarters of it; three sets keep the screen
-// full while it loops. Keep in step with `carousel` in styles.css (-100% / COPIES).
+// (styles.css), so one set of the four Rooms fills it; three sets keep the screen full
+// while it loops. Keep in step with `carousel` in styles.css (-100% / COPIES).
 const COPIES = 3
 
 /**
- * The three Rooms on an endless, slow loop. Copies after the first are hidden from
+ * The four Rooms on an endless, slow loop. Copies after the first are hidden from
  * assistive tech; reduced motion turns it into a still, scrollable row.
  */
 function RoomsCarousel() {

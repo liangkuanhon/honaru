@@ -2,7 +2,7 @@
 
 Brand, audience and copy rules for the Honaru website. `CLAUDE.md` covers code structure
 and workflow; where the two overlap they agree. Updated 2026-10-18 to match the owner's
-direction of 2026-10-17; colours and logo from Brand Kit v5 (2026-11-06).
+direction of 2026-10-17; colours and logo from Brand Kit v6 (2026-11-07).
 
 ---
 
@@ -13,7 +13,7 @@ direction of 2026-10-17; colours and logo from Brand Kit v5 (2026-11-06).
   close in their own way, but messaging apps are built for everyone, so they fit no
   relationship in particular and the small things get lost.
 - **Product:** a messaging app where each close relationship gets its own private Room:
-  Couple, Family, and Friends & Travel.
+  Couple, Family, Friends and Travel.
 - **Slogan:** "People, not tabs."
 - **Promises:** one Room for each kind of relationship; conversations and data are never
   sold; location sharing is opt-in with no background tracking. These are
@@ -39,7 +39,7 @@ trust the person behind it?
 
 This site is not the product. The Rooms live only in the mobile app.
 
-- **Do:** the belief, one human moment, the three Rooms as a feeling, reviews, the
+- **Do:** the belief, one human moment, the four Rooms as a feeling, reviews, the
   mission, the pledge, careers, contact, download or waitlist.
 - **Don't:** feature tours, per-Room pages, app-screen walkthroughs, pricing, sign-in,
   onboarding, a journal or milestones feed, stat strips. Detail gets its own page, never
@@ -53,7 +53,7 @@ right; Download is not a page, only a hover card with the App Store QR code. Foo
 
 | Route | Screens |
 | --- | --- |
-| `/` | Hero (the belief) · the problem as one human moment · the three Rooms on a slow loop |
+| `/` | Hero (the belief) · the problem as one human moment · the four Rooms on a slow loop |
 | `/mission` | The mission over a 16:9 image · why we exist, with a 3:2 illustration · two numbered promises · "how we decide" pull quote over a 21:9 strip · "Honaru started with a real reason", linking to `/pledge` · waitlist |
 | `/pledge` | "Giving back" hero · why this matters to me (the founder's own words) · what we'll do · closing |
 | `/careers` | Hero · who we hope to meet · how we work, with a button to `/mission` · open roles · closing |
@@ -70,10 +70,11 @@ Minimal and inviting, in the spirit of locket.com. Calm, like a letter from a fr
 
 ### Colour
 
-From Brand Kit v5 (2026-11-06): ground and ink, Honaru Purple as the one brand accent,
-and one colour family per Room. The palette is defined once, in `:root` in
-`src/styles.css`; nothing else holds a hex value except `public/favicon.svg` and
-`theme-color` in `index.html`, which can't read CSS.
+From Brand Kit v6 (2026-11-07; the kit, its logo files and `src/theme/tokens.ts` live in the
+app repo): ground and ink, Honaru Purple as the one brand accent, and one colour family per
+Room. The palette is defined once, in `:root` in `src/styles.css`; nothing else holds a hex
+value except `public/favicon.svg` (the kit's mark file as is) and `theme-color` in
+`index.html`, which can't read CSS.
 
 **Core**
 
@@ -81,9 +82,10 @@ and one colour family per Room. The palette is defined once, in `:root` in
 | --- | --- | --- |
 | `--ground` | `#FAF8F5` | Background; text on ink |
 | `--ink` | `#17151C` | Text and headlines; the alternate screens |
-| `--purple` | `#4A3A8C` | Honaru Purple: buttons, links, focus, the hero's accent words; the logo's left arch |
+| `--purple` | `#4A3A8C` | Honaru Purple: buttons, links, focus, the hero's accent words; the logo's left arch, and its overlap on ink |
 | `--purple-light` | `#A794E8` | Purple on ink (Purple itself is 2.0:1 there); the logo's right arch on ink |
-| `--purple-glow` | `#CBBFF2` | The logo's right arch on ground; text selection on ground; never text |
+| `--purple-glow` | `#C3B5F1` | The logo's right arch on ground; text selection on ground; never text |
+| `--purple-night` | `#2F2560` | Night: the logo's overlap on ground, and nothing else |
 
 Primary buttons are Purple with ground text on ground screens, and Purple Light with ink
 text on ink screens. Use Purple sparingly, for what people should notice, and never to
@@ -95,15 +97,17 @@ mean "premium".
 | --- | --- | --- | --- | --- |
 | Couple (`couple`) | Rose | `#F0A7B8` | `#FAE3E7` | `#633D46` |
 | Family (`family`) | Marigold | `#E6BA65` | `#F5E8D0` | `#5C4414` |
-| Friends & Travel (`friends-travel`) | Sage | `#A4CC9C` | `#E2EEDF` | `#3A4E35` |
+| Friends (`friends`) | Myosotis | `#9DBEE0` | `#E0EBF6` | `#33475E` |
+| Travel (`travel`) | Sage | `#A4CC9C` | `#E2EEDF` | `#3A4E35` |
 
-- Raw tokens are `--rose`, `--rose-tint`, `--rose-text` (and `marigold-`, `sage-`).
-  Components read only the semantic ones: `--bg`, `--fg`, `--accent`, `--on-accent`,
-  `--selection`, `--line`, `--mark-left`, `--mark-right` and the three `--room-*`.
+- Raw tokens are `--rose`, `--rose-tint`, `--rose-text` (and `marigold-`, `myosotis-`,
+  `sage-`). Components read only the semantic ones: `--bg`, `--fg`, `--accent`,
+  `--on-accent`, `--selection`, `--line`, `--mark-left`, `--mark-right`, `--mark-overlap`
+  and the three `--room-*`.
 - An element with `data-room={room.id}` sets the three `--room-*` tokens, and everything
-  inside takes that Room's mood: the tint as a wash, the accent as a frame and the
-  logo's overlap, the accent text for marks and words. Outside any Room they default to
-  Rose, because the Rose logo is the Honaru logo.
+  inside takes that Room's mood: the tint as a wash, the accent as a frame, the accent text
+  for marks and words. Outside any Room they default to Rose, only as a default: the logo
+  never takes a Room colour.
 - Accents are fills and frames only. Tints are Room washes (and selection inside a Room), never
   general panels. One Room's colours at a time.
 - `--line` (ink or ground at 12%) is for dividers only; field edges stay full strength.
@@ -119,8 +123,10 @@ mean "premium".
 | Purple on ground | 8.7:1 |
 | Purple Light on ink | 6.9:1 |
 | Purple on ink | 2.0, so never there |
-| Accent text on its tint | Rose 7.5, Marigold 7.6, Sage 7.6 |
-| Accent text on ground | 8.5-8.7 |
+| Night on ground | 12.7:1 (the logo's overlap; never interface) |
+| Purple Glow on ground | 1.8, so a fill only; ink on it 9.7:1 |
+| Accent text on its tint | Rose 7.5, Marigold 7.6, Myosotis 7.9, Sage 7.6 |
+| Accent text on ground | 8.5-9.0 |
 | Ink on a tint | 14.8:1+ |
 | Room accent on ground | 1.7-1.8, so never text, icons that carry meaning or focus rings |
 | Room accent on ink | 9.4-10.1 |
@@ -129,10 +135,10 @@ mean "premium".
 
 ### Type
 
-- **Newsreader** (weight 500, optical sizing) for h1-h3. Kept by the owner's choice; the
-  kit's DM Sans-only rule applies to the app and social.
-- **DM Sans** (300-600) for everything else, and the wordmark (600, tracked -1.2%);
-  600 where something should read as bold.
+- **Newsreader** (weight 500, optical sizing) for h1-h3, as the kit has it for titles and the
+  wordmark.
+- **DM Sans** (300-600) for everything else; 600 where something should read as bold. The
+  kit allows nothing above SemiBold.
 - Both self-hosted with `font-display: block` and no system-font fallback, so every device
   shows the same faces.
 - Hero taglines are large but not shouting: roughly 36px on phones to 60px on wide screens.
@@ -145,12 +151,14 @@ mean "premium".
 
 ### Logo, icons, imagery
 
-- Logo (Brand Kit v5): two arches, Purple on the left and Purple Glow on the right, with the
-  Room accent where they overlap; on ink, ground and Purple Light. The Rose logo is the
-  Honaru logo; a Room's logo appears only inside that Room (the `/rooms` screens). Never
-  stretch, tilt, recolour or swap the arches. The mark is at least 24px tall.
-- Wordmark: lowercase "honaru", typeset in DM Sans 600 until the outlined logo file
-  exists; then use the file, never retype it.
+- Logo (Brand Kit v6): two arches, Purple on the left and Purple Glow on the right, with
+  Night where they overlap; on ink, Ground and Purple Light with a Purple overlap. There is
+  one logo: Room colours never go in it, and the `/rooms` screens keep the ground set.
+  In one colour (`Mark mono`, the placeholder art) the overlap becomes a thin gap so both
+  arches still read. Never stretch, tilt, recolour or swap the arches, and keep clear
+  space the height of the wordmark's "o" on every side. The mark is at least 24px tall.
+- Wordmark: lowercase "honaru" in Newsreader Medium, outlined in the kit's logo file and
+  drawn by `Logo` from that path. Never retype it.
 - Icons: line only on a 24px grid. No filled icons, no emoji.
 - No stock photos. Until real art exists, `Illustration` holds the space at its final
   aspect ratio (4:5, 3:2, 16:9, 21:9), labelled with what the image should show.

@@ -35,11 +35,11 @@ export const problem = [
 ]
 
 /** A Room's fixed key: it picks the Room's colours (`data-room` in styles.css), so labels can change freely. */
-export type RoomId = "couple" | "family" | "friends-travel"
+export type RoomId = "couple" | "family" | "friends" | "travel"
 
 /**
- * The three Rooms. `label` and `feeling` are the home carousel's teaser; the rest is the
- * owner's copy for /rooms.
+ * The four Rooms. `label` and `feeling` are the home carousel's teaser; the rest is the
+ * owner's copy for /rooms (the Friends Room's is still to be written).
  */
 export const rooms: {
   id: RoomId
@@ -72,11 +72,21 @@ export const rooms: {
     text: "Your digital living room. Drop in with the small stuff: a photo, a hello across time zones, the milestone nobody wants to miss. No pressure to keep up. And year after year, it quietly gathers it all into your Memory Vault, a scrapbook that becomes your circle's heirloom.",
   },
   {
-    id: "friends-travel",
+    id: "friends",
+    label: "Myosotis Room",
+    feeling: "For Friends.",
+    icon: "people",
+    audience: "For Friends",
+    title: "The Myosotis Room",
+    mood: "[The feeling of the Friends Room, in the owner's words.]",
+    text: "[What the Friends Room is: who it is for, the feeling, the place. In the owner's words.]",
+  },
+  {
+    id: "travel",
     label: "Sage Room",
-    feeling: "For Friends & Travel.",
+    feeling: "For Travel.",
     icon: "plane",
-    audience: "For Friends & Travel",
+    audience: "For Travel",
     title: "The Sage Room",
     mood: "Alert, clear and forward-looking.",
     text: "Your basecamp. Open Honaru and the air turns crisp, the greens of an open trail. In an instant, everyone's on the same map. The itinerary stops being a spreadsheet and becomes a living timeline of the next great story you'll tell together.",

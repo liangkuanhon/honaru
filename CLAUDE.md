@@ -5,28 +5,28 @@
 
 ## What this is
 
-Only the Honaru landing page. The Rooms (Couple, Family, Friends & Travel) live in the
+Only the Honaru landing page. The Rooms (Couple, Family, Friends, Travel) live in the
 mobile app; never build app features, sign-in or per-Room tours here.
 
 Owner direction (2026-10-17), which overrides DESIGN.md where they differ:
 
 - **Minimal and inviting**, in the spirit of locket.com. The home page answers one
   question, "why does this exist, and why trust the person behind it?", in three screens:
-  hero (the belief), the problem as one human moment, the three Rooms as a looping
+  hero (the belief), the problem as one human moment, the four Rooms as a looping
   teaser. Features belong in the app; detail lives on its own
   page, never in more home sections.
 - Header: Mission and Pledge on the left, brand centred, Download and Careers on the
   right (Download is a hover card, not a page). Footer (ink): brand, X / Instagram /
   TikTok icons and copyright on the left; Index and Legal links on the right.
-- **Brand Kit v5 (2026-11-06).** Ground #FAF8F5 background, ink #17151C text, Honaru
-  Purple #4A3A8C for buttons, links and focus (Purple Light on ink). Couple is Rose,
-  Family Marigold, Friends & Travel Sage, each an accent, a tint and a text shade
-  (DESIGN.md). The logo is two arches with the Room accent in the overlap. No greys
-  beyond the 12% ink line, no status colours; no dark theme (`prefers-color-scheme: dark`).
-- **Newsreader for headings (h1-h3), DM Sans for everything else**, including the
-  wordmark (kept over the kit's DM Sans-only rule, by the owner's choice). Both
-  self-hosted with `font-display: block` and no system-font stack, so every device renders
-  the same faces.
+- **Brand Kit v6 (2026-11-07; the kit and its logo files live in the app repo).** Ground
+  #FAF8F5 background, ink #17151C text, Honaru Purple #4A3A8C for buttons, links and focus
+  (Purple Light on ink). Couple is Rose, Family Marigold, Friends Myosotis, Travel Sage,
+  each an accent, a tint and a text shade (DESIGN.md). There is one logo: two arches with
+  Night in the overlap on ground (Purple on ink), never a Room colour, and the outlined
+  Newsreader wordmark from the kit. No greys beyond the 12% ink line, no status colours;
+  no dark theme (`prefers-color-scheme: dark`).
+- **Newsreader for headings (h1-h3), DM Sans for everything else.** Both self-hosted with
+  `font-display: block` and no system-font stack, so every device renders the same faces.
 - **Real routes** (`/about`, `/journal`, …) defined in TypeScript, not `#section` links.
 - **React components, not repeated markup.** One `index.html`; pages compose shared components.
 - **As few files and folders as possible.** No folder for a single file; no docs/,
@@ -46,7 +46,7 @@ src/
 ├── styles.css          tokens and every style
 ├── components/
 │   ├── ui.tsx          Link, ButtonLink, Screen, Page, Section, Card, CardGrid, Cards,
-│   │                   Mark, Brand, StoreBadges, GetApp, Illustration, EmailLink,
+│   │                   Mark, Logo, Brand, StoreBadges, GetApp, Illustration, EmailLink,
 │   │                   PolicyPage
 │   ├── Layout.tsx      header, <main>, footer
 │   ├── forms.tsx       NewsletterForm (useForm hook, Field)
@@ -81,12 +81,13 @@ yarn lint && yarn build    # both must pass before reporting work done
 
 ## Design rules
 
-- Colours: the palette lives once in `:root` (`--ground`, `--ink`, `--purple*`, `--rose*`,
-  `--marigold*`, `--sage*`); do not add to it. Components use the role tokens `--bg`,
-  `--fg`, `--accent`, `--on-accent`, `--selection`, `--line`, `--mark-left`,
-  `--mark-right` and `--room-accent`, `--room-tint`, `--room-accent-text`, never raw
-  colours or hex, so they work on both tones and in every Room. `data-room={room.id}` sets the Room tokens, keyed by `RoomId` in `content.ts`
-  (default Rose, the Honaru logo); never key colours off a label. No gradients, shadows or blur; tints
+- Colours: the palette lives once in `:root` (`--ground`, `--ink`, `--purple*` including
+  `--purple-night`, `--rose*`, `--marigold*`, `--myosotis*`, `--sage*`); do not add to it.
+  Components use the role tokens `--bg`, `--fg`, `--accent`, `--on-accent`, `--selection`,
+  `--line`, `--mark-left`, `--mark-right`, `--mark-overlap` and `--room-accent`,
+  `--room-tint`, `--room-accent-text`, never raw colours or hex, so they work on both tones
+  and in every Room. `data-room={room.id}` sets the Room tokens, keyed by `RoomId` in
+  `content.ts` (default Rose, only as a default); never key colours off a label. No gradients, shadows or blur; tints
   only as a Room wash, never as general
   panels; separate things with space, not boxes. Radius 12px (buttons fully round); 1px
   borders.
@@ -111,8 +112,10 @@ yarn lint && yarn build    # both must pass before reporting work done
   aspect ratio (4:5, 3:2, 16:9, 21:9) and labelled with what the asset should show, so
   the real one swaps in without moving the layout. Room accents appear only inside a Room.
 - Logo: `Mark` draws the kit's arches (fills from `--mark-left`, `--mark-right`,
-  `--room-accent`; `mono` for one colour); `Brand` adds the typeset wordmark until the
-  outlined logo file exists. Never recolour, stretch or swap the arches.
+  `--mark-overlap`; `mono` for one colour, with a thin gap at the overlap); `Logo` is the
+  lockup with the kit's outlined wordmark, and `Brand` links it home. The paths are copied
+  from the kit's `honaru-logo.svg`. Never recolour, stretch or swap the arches, put a Room
+  colour in the mark, or retype the wordmark.
 - Accessibility: one `h1` per page (`Page` or the hero provides it), visible labels,
   errors linked with `aria-describedby`, outcomes in a `role="status"` region, 44px touch
   targets.
@@ -177,4 +180,4 @@ yarn lint && yarn build    # both must pass before reporting work done
 - [ ] Choose a form backend and set the endpoints.
 - [ ] Real reviews, social profile URLs (now google.com placeholders).
 - [ ] Founder's story and photo, pledge details, careers copy and legal text.
-- [ ] Outlined wordmark SVG from the brand kit (replaces the typeset one) and a new `og.png`.
+- [ ] The Friends Room's copy (mood and text are placeholders in `rooms` in `content.ts`).

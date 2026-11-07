@@ -1,4 +1,4 @@
-/* Brand Kit v5: ground and ink, Honaru Purple, one colour per Room (DESIGN.md). No dark theme. */
+/* Brand Kit v6: ground and ink, Honaru Purple, one colour per Room (DESIGN.md). No dark theme. */
 
 /* Self-hosted (SIL OFL, /fonts/*-OFL.txt) so every device renders the same faces.
    font-display: block waits for them instead of flashing a system font. */
@@ -25,7 +25,8 @@
   /* Honaru Purple: 8.7:1 with ground, but only 2.0:1 on ink, where Purple Light (6.9:1) takes over. */
   --purple: #4a3a8c;
   --purple-light: #a794e8;
-  --purple-glow: #cbbff2; /* the logo's right arch and text selection on ground; never text */
+  --purple-glow: #c3b5f1; /* the logo's right arch and text selection on ground (ink on it 9.7:1); never text */
+  --purple-night: #2f2560; /* the logo's overlap on ground only (12.7:1); never interface */
   /* Room colours. The accent is a fill or frame only, never text; text is 7.5:1+ on its tint. */
   --rose: #f0a7b8;
   --rose-tint: #fae3e7;
@@ -36,8 +37,11 @@
   --sage: #a4cc9c;
   --sage-tint: #e2eedf;
   --sage-text: #3a4e35;
+  --myosotis: #9dbee0;
+  --myosotis-tint: #e0ebf6;
+  --myosotis-text: #33475e;
 
-  /* The active Room. Rose stands in until [data-room] says otherwise: the Rose logo is Honaru's. */
+  /* The active Room. Rose stands in until [data-room] says otherwise; it is only a default, never the logo. */
   --room-accent: var(--rose);
   --room-tint: var(--rose-tint);
   --room-accent-text: var(--rose-text);
@@ -49,9 +53,10 @@
   --on-accent: var(--ground);
   --selection: var(--purple-glow); /* ink on it is 10.6:1 */
   --line: color-mix(in srgb, var(--fg) 12%, transparent); /* dividers only, never a field's edge */
-  /* The logo's arches; the overlap is always --room-accent. */
+  /* The logo's arches and the lens where they overlap. Never a Room colour: there is one logo. */
   --mark-left: var(--purple);
   --mark-right: var(--purple-glow);
+  --mark-overlap: var(--purple-night);
 
   --header-height: 72px; /* the bar from 640px up; phones stack it taller (below) */
 
@@ -73,6 +78,7 @@
   --selection: var(--purple); /* ground on it is 8.7:1 */
   --mark-left: var(--ground);
   --mark-right: var(--purple-light);
+  --mark-overlap: var(--purple);
 
   background: var(--bg);
   color: var(--fg);
@@ -248,6 +254,7 @@ h3,
   --on-accent: var(--ink);
   --mark-left: var(--ground);
   --mark-right: var(--purple-light);
+  --mark-overlap: var(--purple);
 
   background: transparent;
   color: var(--fg);
@@ -256,7 +263,7 @@ h3,
 /* The header takes the tone of the screen beneath it (Layout.tsx) and eases between them. */
 .site-header,
 .site-header a,
-.site-header .mark path {
+.site-header :is(.mark, .logo) path {
   transition:
     background-color 250ms ease-out,
     color 250ms ease-out,
@@ -307,28 +314,19 @@ h3,
   }
 }
 
-/* The wordmark set in DM Sans SemiBold, tracked -1.2%, until the outlined logo file exists. */
+/* The lockup (the kit's outlined wordmark, never retyped), linking home. */
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
   min-block-size: 44px;
   color: var(--fg);
-  font-family: var(--font-body);
-  font-size: 1.625rem;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.012em;
 }
 
-.brand:hover {
-  text-decoration: none;
-}
-
-.brand .mark {
+.brand .logo {
   block-size: 28px;
 }
 
+.logo,
 .mark {
   flex-shrink: 0;
   block-size: 24px; /* the kit's smallest brandmark */
@@ -344,12 +342,27 @@ h3,
 }
 
 .mark__overlap {
-  fill: var(--room-accent);
+  fill: var(--mark-overlap);
 }
 
-/* One colour: the whole mark in the text colour, as on a placeholder. */
+.logo__wordmark {
+  fill: var(--fg);
+}
+
+/* One colour: the whole mark in the text colour, as on a placeholder. The overlap becomes a
+   thin gap (a hairline of the background around the left arch) so the two arches still read. */
 .mark--mono path {
   fill: currentColor;
+}
+
+.mark--mono .mark__left {
+  stroke: var(--bg);
+  stroke-width: 12; /* viewBox units: about 1px at 24px tall */
+  paint-order: stroke;
+}
+
+.mark--mono .mark__overlap {
+  display: none;
 }
 
 .nav-links {
@@ -801,13 +814,13 @@ main > .screen:first-child > .screen__inner,
 .carousel__track {
   display: flex;
   inline-size: max-content;
-  animation: carousel 45s linear infinite; /* 15s a slide */
+  animation: carousel 60s linear infinite; /* 15s a slide */
   will-change: transform; /* keep the moving strip pre-drawn on its own layer */
 }
 
 @keyframes carousel {
   to {
-    transform: translateX(calc(-100% / 3)); /* one set of three: -100% / COPIES */
+    transform: translateX(calc(-100% / 3)); /* one set of the four Rooms: -100% / COPIES */
   }
 }
 
@@ -843,7 +856,13 @@ main > .screen:first-child > .screen__inner,
   --room-accent-text: var(--marigold-text);
 }
 
-[data-room='friends-travel'] {
+[data-room='friends'] {
+  --room-accent: var(--myosotis);
+  --room-tint: var(--myosotis-tint);
+  --room-accent-text: var(--myosotis-text);
+}
+
+[data-room='travel'] {
   --room-accent: var(--sage);
   --room-tint: var(--sage-tint);
   --room-accent-text: var(--sage-text);
