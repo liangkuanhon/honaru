@@ -52,7 +52,7 @@ src/
 │   ├── forms.tsx       NewsletterForm (useForm hook, Field)
 │   └── Icon.tsx        line icons
 └── pages/              Home, Mission, Pledge, Careers, Rooms, Contact,
-                        Privacy, Terms, Cookies, NotFound
+                        Privacy, Terms, Cookies, DeleteAccount, ChildSafety, NotFound
 ```
 
 ## Routing
@@ -150,6 +150,12 @@ yarn lint && yarn build    # both must pass before reporting work done
 - Never invent achievements, numbers, quotes, partners, platforms, dates or legal text.
   Unconfirmed values are `[bracketed]` and stay visible; `EmailLink` refuses to link a
   placeholder address.
+- Legal pages (`/privacy`, `/terms`, `/delete-account`, `/child-safety`) describe what the
+  app in the app repo actually does and change when it does; never promise anything unbuilt.
+  The owner is the individual publisher for now (`publisher` in `content.ts`). They name no
+  database country (owner, 2026-11-09), and only media is with Cloudflare, not all data.
+  Purchases are non-refundable and liability is excluded as far as the law allows (keep the
+  carve-outs); App Store Connect uses Apple's Standard EULA, as there's no address or phone.
 - Waitlist mode: while both store URLs are `null`, `GetApp` shows the waitlist form and "Launching first in Singapore" instead of
   store badges. No page renders it at the moment.
 

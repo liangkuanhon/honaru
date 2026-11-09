@@ -1,8 +1,10 @@
 import { useEffect, type ComponentType } from 'react'
 import { Layout } from './components/Layout'
 import { Careers } from './pages/Careers'
+import { ChildSafety } from './pages/ChildSafety'
 import { Contact } from './pages/Contact'
 import { Cookies } from './pages/Cookies'
+import { DeleteAccount } from './pages/DeleteAccount'
 import { Home } from './pages/Home'
 import { Join } from './pages/Join'
 import { Mission } from './pages/Mission'
@@ -24,6 +26,8 @@ const routes: Record<Path, { title: string; page: ComponentType }> = {
   '/privacy': { title: 'Privacy Policy · Honaru', page: Privacy },
   '/terms': { title: 'Terms of Use · Honaru', page: Terms },
   '/cookies': { title: 'Cookie Policy · Honaru', page: Cookies },
+  '/delete-account': { title: 'Delete your account · Honaru', page: DeleteAccount },
+  '/child-safety': { title: 'Child Safety Standards · Honaru', page: ChildSafety },
 }
 
 /** Picks the page for the current path and keeps the tab title in step. */

@@ -1,5 +1,5 @@
 import { useId, useState, type AnchorHTMLAttributes, type MouseEvent, type ReactNode } from 'react'
-import { appIsLive, cookies, isPlaceholder, site, terms, type Policy, type PolicyBlock, type RoomId } from '../content'
+import { appIsLive, childSafety, cookies, deleteAccount, isPlaceholder, privacy, site, terms, type Policy, type PolicyBlock, type RoomId } from '../content'
 import { navigate, usePathname, type Path } from '../router'
 import { NewsletterForm } from './forms'
 import { Icon, type IconName } from './Icon'
@@ -232,7 +232,13 @@ export function Illustration({ label, src, icon, ratio = '4:5', bleed = false }:
 
 /** One paragraph, subheading or term list of a policy. */
 // Each legal page's name, wherever a policy mentions it, links to that page.
-const policyLinks: Record<string, Path> = { [terms.title]: '/terms', [cookies.title]: '/cookies' }
+const policyLinks: Record<string, Path> = {
+  [terms.title]: '/terms',
+  [privacy.title]: '/privacy',
+  [cookies.title]: '/cookies',
+  [deleteAccount.title]: '/delete-account',
+  [childSafety.title]: '/child-safety',
+}
 const policyLinkPattern = new RegExp(`(${Object.keys(policyLinks).join('|')})`)
 
 /** Policy text with the other legal pages' names as links. */

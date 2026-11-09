@@ -1,7 +1,7 @@
-import { Page } from '../components/ui'
+import { PolicyPage } from '../components/ui'
 import { terms } from '../content'
 
-/** The terms of use: the hero only for now. */
+/** The terms of use. */
 export function Terms() {
-  return <Page overline="Legal" title={terms.title} lead={terms.lead} />
+  return <PolicyPage policy={terms} />
 }
