@@ -3,8 +3,8 @@
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "app.honaru",
-      "sha256_cert_fingerprints": ["REPLACE_WITH_SHA256"]
+      "package_name": "com.honaru.app",
+      "sha256_cert_fingerprints": ["F7:96:C8:AB:31:BD:98:61:58:C6:23:1C:A2:93:2C:D4:12:09:A4:C9:F4:F1:FF:EB:89:FB:17:FB:78:8C:9F:70"]
     }
   }
 ]
